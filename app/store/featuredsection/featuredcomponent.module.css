@@ -20,6 +20,27 @@
     position: relative;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
+
+  .iconOverlay {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background-color: white;
+    border-radius: 50%;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+    color: black;
+  }
+  .buttonPlaceholder:hover .iconOverlay {
+    background-color: black;
+  }
+  
+  .buttonPlaceholder:hover .iconOverlay svg {
+    color: white;
+  }
   
   .buttonsContainer {
     position: absolute;
@@ -70,14 +91,81 @@
   }
   
   .buttonPlaceholder::before {
-    font-size: 0.8rem;
+    font-size: 1rem;
     color: #888;
   }
+
+.buyNowWrapper {
+  position: absolute;
+  right: 1rem;
+  bottom: 10rem;
+}
+
+.buyNowButton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  overflow: hidden;
+  z-index: 0;
+  transition: color 0.5s ease, transform 0.5s ease;
+}
+
+.buyNowButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 100%;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  transition: right 0.6s ease;
+  z-index: -1;
+  border-radius: 50px;
+}
+
+.buyNowButton:hover::before {
+  right: 0;
+}
+
+.buyNowButton:hover {
+  color: black;
+}
+
+.buyNowButton:hover .arrowIcon {
+  background-color: black;
+  color: white;
+}
+
+.arrowIcon {
+  background-color: white;
+  color: black;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  margin-right: -0.5rem;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+  
+  
   
   /* Responsive adjustments */
   @media (max-width: 768px) {
     .buttonsContainer {
-      bottom: 10px;
+      bottom: 5px;
       right: 10px;
       gap: 8px;
     }
@@ -87,28 +175,75 @@
     }
   
     .buttonLabel {
-      font-size: 0.8rem;
+      font-size: 1rem;
       margin-bottom: 3px;
       top: 3px;
     }
-  
-    .buttonPlaceholder {
-      height: 100%;
-    }
+
+    .buttonsContainer {
+        bottom: 10px;
+        right: 10px;
+        gap: 8px;
+      }
+    
+      .button {
+        width: 120px;
+      }
+    
+      .buttonLabel {
+        font-size: 1rem;
+        margin-bottom: 3px;
+        top: 3px;
+      }
+    
+      .buyNowWrapper {
+        bottom: 10rem;
+        right: 10px;
+      }
+    
+      .buyNowButton {
+        padding: 0.4rem 0.9rem;
+        font-size: 0.95rem;
+      }
+    
+      .arrowIcon {
+        width: 1.8rem;
+        height: 1.8rem;
+        font-size: 1rem;
+      }
   }
   
   @media (max-width: 480px) {
     .button {
-      width: 120px;
-      height: 120px;
+      width: calc(120px * .6);
+      height: calc(120px * .6);
     }
   
     .buttonLabel {
-      font-size: 0.7rem;
+      font-size: 0.9rem;
     }
-  
-    .buttonPlaceholder {
-      height: 100%;
-    }
+
+    .button {
+        width: calc(120px * 0.6);
+        height: calc(120px * 0.6);
+      }
+    
+
+      .buyNowWrapper {
+        bottom: 6rem; /* Even higher on very small screens */
+        right: 10px;
+      }
+    
+      .buyNowButton {
+        padding: 0.35rem 0.8rem;
+        font-size: 0.9rem;
+      }
+    
+      .arrowIcon {
+        width: 1.6rem;
+        height: 1.6rem;
+        font-size: 0.95rem;
+      }
+    
   }
   
