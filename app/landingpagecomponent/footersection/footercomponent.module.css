@@ -1,0 +1,51 @@
+.footer {
+    width: 100%;
+    min-height: 60vh;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .mainContent {
+    flex: 1;
+    /* Add padding/content styling as needed */
+  }
+  
+  /* Marquee Row */
+  .marqueeRow {
+    width: 100%;
+    height: 4rem;
+    overflow: hidden;
+    background-color: #f9f9f9;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #e5e5e5;
+  }
+  
+  .marqueeContent {
+    display: flex;
+    white-space: nowrap;
+    animation: scroll-left 200s linear infinite;
+  }
+  
+  .marqueeText {
+    font-size: 5rem;
+    font-weight: normal;
+    letter-spacing: -1px;
+    padding: 0 1rem;
+    color: #333;
+  }
+  
+  /* Animation */
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  

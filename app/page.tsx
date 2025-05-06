@@ -5,6 +5,7 @@ import TopNavbar from "./topnavbar/topnavbar";
 import GuideComponent from "./landingpagecomponent/guidesection/guidecomponent";
 import TrustAndServiceComponent from "./landingpagecomponent/trustandservicesection/trustandservicecomponent";
 import CallToActionComponent from "./landingpagecomponent/calltoactionsection/calltoactioncomponent";
+import FooterComponent from "./landingpagecomponent/footersection/footercomponent";
 
 export default function StorePage() {
   return (
@@ -15,6 +16,7 @@ export default function StorePage() {
       <GuideComponent />
       <TrustAndServiceComponent />
       <CallToActionComponent />
+      <FooterComponent />
     </div>
   );
 }
