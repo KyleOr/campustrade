@@ -14,6 +14,12 @@ export default function FeaturedComponent() {
   return (
     <section className={styles.featured}>
       <div className={styles.banner}>
+        {/* Trending Label */}
+        <div className={styles.labelContainer}>
+          <h2 className={styles.trendingLabel}>Trending Categories</h2>
+        </div>
+
+        {/* CTA Button */}
         <div className={styles.buyNowWrapper}>
           <button className={styles.buyNowButton}>
             Buy Now
@@ -22,6 +28,8 @@ export default function FeaturedComponent() {
             </span>
           </button>
         </div>
+
+        {/* Category Buttons */}
         <div className={styles.buttonsContainer}>
           <motion.div
             className={styles.button}
@@ -65,7 +73,6 @@ export default function FeaturedComponent() {
               className={styles.buttonPlaceholder}
               style={{ backgroundImage: `url(${images[1]})` }} // Dynamically set the background image
             >
-              {" "}
               <div className={styles.iconOverlay}>
                 <ArrowRight size={16} />
               </div>
@@ -90,7 +97,6 @@ export default function FeaturedComponent() {
               className={styles.buttonPlaceholder}
               style={{ backgroundImage: `url(${images[2]})` }} // Dynamically set the background image
             >
-              {" "}
               <div className={styles.iconOverlay}>
                 <ArrowRight size={16} />
               </div>

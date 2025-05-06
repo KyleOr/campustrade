@@ -159,7 +159,20 @@
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-  
+.labelContainer {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+.trendingLabel {
+  color: white;
+  padding: 0.5rem 0.5rem;
+  border-radius: 8px;
+  font-size: 3rem;
+  font-weight: 500;
+  letter-spacing: -1px;
+}
   
   
   /* Responsive adjustments */
@@ -211,6 +224,21 @@
         height: 1.8rem;
         font-size: 1rem;
       }
+
+      .labelContainer {
+        position: absolute;
+        top: 80px;
+        left: 20px;
+      }
+      
+      .trendingLabel {
+        color: white;
+        padding: 0.5rem 0.5rem;
+        border-radius: 8px;
+        font-size: 2rem;
+        font-weight: 500;
+        letter-spacing: -1px;
+      }
   }
   
   @media (max-width: 480px) {
@@ -243,6 +271,22 @@
         width: 1.6rem;
         height: 1.6rem;
         font-size: 0.95rem;
+      }
+
+
+      .labelContainer {
+        position: absolute;
+        top: 93px;
+        left: 2px;
+      }
+      
+      .trendingLabel {
+        color: white;
+        padding: 0.5rem 0.5rem;
+        border-radius: 8px;
+        font-size: 1.4rem;
+        font-weight: 500;
+        letter-spacing: -1px;
       }
     
   }
