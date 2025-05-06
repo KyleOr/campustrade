@@ -1,6 +1,6 @@
 .footer {
     width: 100%;
-    min-height: 60vh;
+    min-height: 25vh;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -9,20 +9,67 @@
     overflow: hidden;
   }
   
-  .mainContent {
-    flex: 1;
-    /* Add padding/content styling as needed */
+
+  .columns {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0rem 2rem 2.5rem 1rem;
+    flex-wrap: wrap;
   }
+  
+  .column {
+    flex: 1;
+    min-width: 180px;
+  }
+  
+  .column h4 {
+    font-size: 1.5rem;
+    font-weight: normal;
+    margin-bottom: 1rem;
+    letter-spacing: -1px;
+    color: #111;
+  }
+  
+
+  .column:nth-child(1) {
+    text-align: left;
+  }
+  
+  .column:nth-child(n+2) {
+    text-align: right;
+  }
+  
+  .column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    line-height: 1rem;
+  }
+  
+  .column li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .column a {
+    text-decoration: none;
+    color: #666;
+    transition: color 0.3s ease;
+  }
+  
+  .column a:hover {
+    color: #111;
+  }
+  
   
   /* Marquee Row */
   .marqueeRow {
     width: 100%;
     height: 4rem;
     overflow: hidden;
-    background-color: #f9f9f9;
+    background-color: white;
     display: flex;
     align-items: center;
-    border-top: 1px solid #e5e5e5;
   }
   
   .marqueeContent {
@@ -36,7 +83,7 @@
     font-weight: normal;
     letter-spacing: -1px;
     padding: 0 1rem;
-    color: #333;
+    color: black;
   }
   
   /* Animation */
@@ -49,3 +96,13 @@
     }
   }
   
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+        .column:nth-child(1),
+        .column:nth-child(n+2) {
+          text-align: left;
+          padding: 1rem;
+          font-size: 0.85rem;
+        }
+      }
