@@ -11,9 +11,10 @@
     align-items: center;
     z-index: 200;
     opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
     animation: fadeIn 0.3s ease forwards;
-  }
-  
+}
+
   @keyframes fadeIn {
     to {
       opacity: 1;
@@ -35,10 +36,104 @@
   
   .searchBox {
     background-color: white;
-    padding: 2rem 3rem;
+    padding: 2rem 2rem;
     border-radius: 1rem;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
     max-width: 90%;
-    width: 400px;
+    width: 1000px;
+  }
+  
+  .searchInputWrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: white;
+    padding: 0.6rem 1rem;
+    border-radius: 0.75rem;
+    width: 100%;
+  }
+  
+  .searchInput {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 1rem;
+    color: black;
+    letter-spacing: 0.5px;
+    font-weight: bold;
+  }
+  
+  .icon {
+    color: #666;
+  }
+  
+  .iconButton {
+    color: #333;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  
+  .iconButton:hover {
+    color: #000;
+  }
+  
+  /* Transitioning results wrapper */
+  .resultsWrapper {
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: height 0.5s ease, opacity 0.5s ease, margin-top 0.5s ease;
+    margin-top: 0;
+  }
+  
+  .resultsWrapper.open {
+    height: 200px; /* or whatever height fits your content */
+    opacity: 1;
+    margin-top: 1.5rem;
+  }
+  
+  
+  .searchResults {
+    display: flex;
+    margin-top: 1.5rem;
+    gap: 2rem;
+  }
+  
+  .resultsLeft {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .resultsRight {
+    flex: 1;
+    background-color: #fafafa;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-style: italic;
+    text-align: center;
+  }
+  
+  .suggestionItem {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.4rem;
+    background-color: #f3f3f3;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .suggestionItem:hover {
+    background-color: #eaeaea;
+  }
+  
+  .placeholderTopResult {
+    font-size: 0.95rem;
   }
   
