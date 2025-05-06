@@ -1,5 +1,10 @@
 "use client";
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useTransform,
+  MotionValue,
+} from "framer-motion";
 import { useRef } from "react";
 import {
   BadgeCheck,
@@ -78,15 +83,16 @@ function TiltCard({
   children: React.ReactNode;
   color?: string;
 }) {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0.5);
   const y = useMotionValue(0.5);
 
   const rotateX = useTransform(y, [0, 1], [10, -10]);
   const rotateY = useTransform(x, [0, 1], [-10, 10]);
   const scale = useTransform(
-    [x, y],
-    ([xVal, yVal]) => 1 + (xVal - 0.5) * 0.04 + (yVal - 0.5) * 0.04
+    [x as MotionValue<number>, y as MotionValue<number>],
+    ([xVal, yVal]: [number, number]) =>
+      1 + (xVal - 0.5) * 0.04 + (yVal - 0.5) * 0.04
   );
 
   const handleMouseMove = (e: React.MouseEvent) => {
