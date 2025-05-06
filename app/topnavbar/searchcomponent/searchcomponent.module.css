@@ -137,3 +137,91 @@
     font-size: 0.95rem;
   }
   
+@media (max-width: 768px) {
+    .searchBox {
+      width: 90%; /* Reduce width for smaller screens */
+      padding: 1.5rem; /* Adjust padding */
+    }
+  
+    .searchInputWrapper {
+      flex-direction: column; /* Stack input and icons vertically */
+      gap: 0.75rem;
+    }
+  
+    .searchInput {
+      font-size: 0.9rem; /* Adjust font size */
+    }
+  
+    .searchResults {
+      flex-direction: column; /* Stack results vertically */
+      gap: 1rem;
+    }
+
+    .resultsWrapper {
+        height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: height 0.5s ease, opacity 0.5s ease, margin-top 0.5s ease;
+        margin-top: 0;
+      }
+      
+      .resultsWrapper.open {
+        height: 200px;
+        opacity: 1;
+        margin-top: 1.5rem;
+      }
+  
+    .resultsLeft {
+      flex: 1; /* Adjust flex ratio */
+    }
+  
+    .resultsRight {
+      flex: 1; /* Adjust flex ratio */
+      min-height: 100px; /* Reduce minimum height */
+    }
+    .icon {
+        display: none; /* Hide the search icon */
+      }
+  }
+  
+  @media (max-width: 480px) {
+    .searchBox {
+      width: 100%; /* Full width for very small screens */
+      padding: 1rem; /* Further reduce padding */
+    }
+  
+    .searchInputWrapper {
+      gap: 0.5rem; /* Reduce gap */
+    }
+  
+    .searchInput {
+      font-size: 0.85rem; /* Smaller font size */
+    }
+  
+    .resultsWrapper {
+        height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: height 0.5s ease, opacity 0.5s ease, margin-top 0.5s ease;
+        margin-top: 0;
+      }
+      
+      .resultsWrapper.open {
+        height: 200px;
+        opacity: 1;
+        margin-top: 1.5rem;
+      }
+  
+    .suggestionItem {
+      font-size: 0.85rem; /* Adjust font size for suggestions */
+      padding: 0.4rem 0.6rem; /* Reduce padding */
+    }
+  
+    .resultsRight {
+      display: none; /* Hide the right section on very small screens */
+    }
+
+    .icon {
+        display: none; /* Hide the search icon */
+      }
+  }
