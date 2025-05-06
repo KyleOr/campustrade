@@ -4,6 +4,7 @@ import FeaturedComponent from "./landingpagecomponent/featuredsection/featuredco
 import TopNavbar from "./topnavbar/topnavbar";
 import GuideComponent from "./landingpagecomponent/guidesection/guidecomponent";
 import TrustAndServiceComponent from "./landingpagecomponent/trustandservicesection/trustandservicecomponent";
+import CallToActionComponent from "./landingpagecomponent/calltoactionsection/calltoactioncomponent";
 
 export default function StorePage() {
   return (
@@ -13,6 +14,7 @@ export default function StorePage() {
       <FeaturedComponent />
       <GuideComponent />
       <TrustAndServiceComponent />
+      <CallToActionComponent />
     </div>
   );
 }
