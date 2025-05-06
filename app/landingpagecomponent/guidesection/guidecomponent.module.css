@@ -1,0 +1,112 @@
+.guideSection {
+    width: 100%;
+    padding: 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+  }
+  
+  .title {
+    font-size: 6vw;
+    font-weight: normal;
+    text-align: left;
+    width: 100%;
+    color: black;
+    line-height: 1;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    letter-spacing: -1px;
+  }
+  
+  .stepsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem; /* Increase space between steps */
+    color: black;
+    width: 100%; /* Ensure it takes full width */
+  }
+  
+  .step {
+    display: flex;
+    justify-content: space-between; /* Distribute text and image across full width */
+    gap: 5rem; /* Space out the text and image */
+    width: 100%; /* Make it take up the full width */
+    letter-spacing: -1px;
+  }
+  
+  .reversed {
+    flex-direction: row-reverse; /* Reverse the flex direction for alternating layout */
+  }
+  
+  .textLeft, .textRight {
+    flex: 1;
+    padding: 0 2rem; /* Give space between the text and edges */
+    max-width: 50%;
+  }
+  
+  .textLeft {
+    text-align: left; /* Align text to the left */
+  }
+  
+  .textRight {
+    text-align: right; /* Align text to the right */
+  }
+  
+  .text h3 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .text p {
+    font-size: 1.2rem;
+    color: #555;
+  }
+  
+  .imageWrapper {
+    flex: 1;
+    max-width: 500px;
+    max-height: 350px;
+    overflow: hidden;
+    border-radius: 1rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 1rem;
+  }
+  
+  @media (max-width: 768px) {
+    .title {
+      font-size: 12vw; /* Adjust the title size for smaller screens */
+      text-align: center;
+    }
+  
+    .step, .reversed {
+      flex-direction: column;
+      text-align: center;
+      gap: 2rem; /* Increase gap between text and image in smaller screens */
+    }
+  
+    .textLeft, .textRight {
+      text-align: center; /* Center align text on smaller screens */
+      padding: 0; /* Remove padding for mobile */
+      max-width: 100%; /* Allow text to take full width */
+    }
+  
+    .imageWrapper {
+      margin-top: 1.5rem; /* Add margin top on small screens for spacing */
+    }
+  
+    .image {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 1rem;
+    }
+  }
+  

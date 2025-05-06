@@ -2,6 +2,7 @@ import styles from "./storepage.module.css";
 import HeroComponent from "./landingpagecomponent/herosection/herocomponent";
 import FeaturedComponent from "./landingpagecomponent/featuredsection/featuredcomponent";
 import TopNavbar from "./topnavbar/topnavbar";
+import GuideComponent from "./landingpagecomponent/guidesection/guidecomponent";
 
 export default function StorePage() {
   return (
@@ -9,6 +10,7 @@ export default function StorePage() {
       <TopNavbar />
       <HeroComponent />
       <FeaturedComponent />
+      <GuideComponent />
     </div>
   );
 }
