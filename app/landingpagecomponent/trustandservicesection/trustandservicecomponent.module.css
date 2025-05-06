@@ -1,0 +1,135 @@
+.section {
+    background-color: black;
+    color: white;
+    padding: 8rem 2rem;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+  }
+  
+  .inner {
+    width: 100%;
+    text-align: center;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .title {
+    font-size: 3.5rem;
+    margin-bottom: 4rem;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: -1px;
+    background: linear-gradient(90deg, #fff, #aaa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .trustItems {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2.5rem;
+    max-width: 1800px;
+    margin: 0 auto;
+  }
+  
+  .trustItem {
+    padding: 3rem 2.5rem;
+    border-radius: 1.5rem;
+    height: 32rem;
+    width: calc(25% - 2.5rem);
+    min-width: calc(25% - 2.5rem);
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-out;
+    will-change: transform;
+    perspective: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+  }
+  
+  .trustItem::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .trustItem:hover::before {
+    opacity: 1;
+  }
+  
+  .iconWrapper {
+    margin-bottom: 2.5rem;
+    padding: 1.5rem;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    display: inline-flex;
+    transition: transform 0.3s ease;
+    will-change: transform;
+  }
+  
+  .trustItem:hover .iconWrapper {
+    transform: translateY(-5px);
+  }
+  
+  .trustItem h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  
+  .trustItem p {
+    font-size: 1.15rem;
+    color: #ddd;
+    line-height: 1.6;
+    max-width: 90%;
+  }
+  
+  /* 2x2 grid layout */
+  @media (max-width: 1200px) {
+    .trustItems {
+      max-width: 1000px;
+    }
+    
+    .trustItem {
+      width: calc(50% - 2.5rem);
+      min-width: calc(50% - 2.5rem);
+      height: 30rem;
+    }
+  }
+  
+  /* 1x4 column layout */
+  @media (max-width: 768px) {
+    .trustItems {
+      flex-direction: column;
+      align-items: center;
+      max-width: 30rem;
+      gap: 2rem;
+    }
+  
+    .trustItem {
+      width: 100%;
+      min-width: unset;
+      height: 24rem;
+      padding: 2.5rem 2rem;
+    }
+    
+    .title {
+      font-size: 2.8rem;
+      margin-bottom: 3rem;
+    }
+  }
