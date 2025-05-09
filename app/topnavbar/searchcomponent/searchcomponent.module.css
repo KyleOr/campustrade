@@ -105,7 +105,24 @@
     flex-direction: column;
     gap: 0.75rem;
     color: #999;
+    height: 150px; /* add a height for scrollbar*/
+    overflow-y: auto;
+    padding-right: 0.5rem;
   }
+
+  .resultsLeft::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .resultsLeft::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+  }
+
+  .resultsLeft {
+    -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+  }
+  
   
   .resultsRight {
     flex: 1;
@@ -166,15 +183,21 @@
       }
       
       .resultsWrapper.open {
-        height: 200px;
+        height: auto;
+        max-height: 300px;
         opacity: 1;
         margin-top: 1.5rem;
+        /* Remove overflow: visible */
+        overflow: auto; /* Change to auto */
       }
-  
-    .resultsLeft {
-      flex: 1; /* Adjust flex ratio */
-    }
-  
+      
+      .resultsLeft {
+        flex: 1;
+        min-height: 0; /* Allows flex child to shrink */
+        overflow-y: auto;
+        padding-right: 0.5rem;
+      }
+      
     .resultsRight {
       flex: 1; /* Adjust flex ratio */
       min-height: 100px; /* Reduce minimum height */
@@ -186,42 +209,65 @@
   
   @media (max-width: 480px) {
     .searchBox {
-      width: 100%; /* Full width for very small screens */
-      padding: 1rem; /* Further reduce padding */
+      width: 100%;
+      padding: 1rem;
     }
   
     .searchInputWrapper {
-      gap: 0.5rem; /* Reduce gap */
+      gap: 0.5rem;
     }
   
     .searchInput {
-      font-size: 0.85rem; /* Smaller font size */
+      font-size: 0.85rem;
     }
   
     .resultsWrapper {
-        height: 0;
-        opacity: 0;
-        overflow: hidden;
-        transition: height 0.5s ease, opacity 0.5s ease, margin-top 0.5s ease;
-        margin-top: 0;
-      }
+      height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: height 0.5s ease, opacity 0.5s ease, margin-top 0.5s ease;
+      margin-top: 0;
+    }
+    
+    .resultsWrapper.open {
+      max-height: 60vh;
+      opacity: 1;
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden; /* Container shouldn't scroll, its child should */
+    }
+    
+    .resultsLeft {
+      flex: 1;
+      min-height: 0; /* Critical for flex scrolling */
+      max-height: 20vh; /* Take up available space */
+      overflow-y: auto;
+      padding-right: 0.5rem;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin; /* For Firefox */
+      scrollbar-color: #ccc transparent; /* For Firefox */
       
-      .resultsWrapper.open {
-        height: 200px;
-        opacity: 1;
-        margin-top: 1.5rem;
+      /* Ensure scrollbar is visible */
+      &::-webkit-scrollbar {
+        width: 6px;
       }
+      &::-webkit-scrollbar-thumb {
+        background-color: #ccc;
+        border-radius: 4px;
+      }
+    }
   
     .suggestionItem {
-      font-size: 0.85rem; /* Adjust font size for suggestions */
-      padding: 0.4rem 0.6rem; /* Reduce padding */
+      font-size: 0.85rem;
+      padding: 0.4rem 0.6rem;
     }
   
     .resultsRight {
-      display: none; /* Hide the right section on very small screens */
+      display: show;
     }
-
+  
     .icon {
-        display: none; /* Hide the search icon */
-      }
+      display: none;
+    }
   }

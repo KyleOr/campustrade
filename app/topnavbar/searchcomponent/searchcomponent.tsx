@@ -84,6 +84,12 @@ export default function SearchComponent({ onClose }: Props) {
                 <div className={styles.suggestionItem}>
                   Autofill suggestion 3
                 </div>
+                <div className={styles.suggestionItem}>
+                  Autofill suggestion 4
+                </div>
+                <div className={styles.suggestionItem}>
+                  Autofill suggestion 5
+                </div>
               </div>
               <div className={styles.resultsRight}>
                 <div className={styles.placeholderTopResult}>
