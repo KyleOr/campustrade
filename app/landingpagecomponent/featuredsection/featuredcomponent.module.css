@@ -7,10 +7,6 @@
   
   .banner {
     height: 50vh;
-    background-image: url("/featuredsectionimage.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,6 +15,12 @@
     margin: 2rem;
     position: relative;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .bannerImage {
+    z-index: 0;
+    object-fit: cover;
+    border-radius: 1rem;
   }
 
   .iconOverlay {
@@ -93,6 +95,9 @@
   .buttonPlaceholder::before {
     font-size: 1rem;
     color: #888;
+  }
+  .image {
+    object-fit: cover;
   }
 
 .buyNowWrapper {

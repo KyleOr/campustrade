@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import styles from "./guidecomponent.module.css";
+import Image from "next/image";
 
 const steps = [
   {
@@ -48,15 +49,6 @@ const itemVariants = {
   },
 };
 
-const imageVariants = {
-  hover: {
-    scale: 1.1, // Scale up the button on hover
-    rotate: 1, // Add slight rotation
-    boxShadow: "0 10px 25px rgba(0, 0, 0, 0.15)",
-    transition: { type: "spring", stiffness: 300 },
-  },
-};
-
 export default function GuideComponent() {
   return (
     <motion.section
@@ -78,14 +70,7 @@ export default function GuideComponent() {
             }`}
             key={index}
             variants={itemVariants}
-            whileHover={{
-              transition: { staggerChildren: 0.1 },
-            }}
-            whileTap={{
-              transition: { staggerChildren: 0.1 },
-            }}
           >
-            {/* Text content */}
             <motion.div
               className={`${styles.text} ${
                 index % 2 === 0 ? styles.textLeft : styles.textRight
@@ -94,25 +79,13 @@ export default function GuideComponent() {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true, margin: "-50px" }}
-              whileTap={{
-                scale: 0.98, // Slightly shrink the text on tap
-              }}
             >
-              <motion.h3
-                whileHover={{
-                  x: index % 2 === 0 ? 5 : -5,
-                }}
-                whileTap={{
-                  x: index % 2 === 0 ? 5 : -5,
-                }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
+              <motion.h3 transition={{ type: "spring", stiffness: 300 }}>
                 {step.title}
               </motion.h3>
               <motion.p>{step.description}</motion.p>
             </motion.div>
 
-            {/* Animated image */}
             <motion.div
               className={styles.imageWrapper}
               initial={{
@@ -123,17 +96,14 @@ export default function GuideComponent() {
               whileInView={{ opacity: 1, scale: 1, x: 0 }}
               transition={{ duration: 0.8, type: "spring" }}
               viewport={{ once: true }}
-              variants={imageVariants}
-              whileHover="hover"
-              whileTap={{
-                scale: "hover",
-              }}
             >
-              <img
+              <Image
                 src={step.image}
                 alt={step.title}
-                loading="lazy"
+                fill
                 className={styles.image}
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority={index === 0}
               />
             </motion.div>
           </motion.div>

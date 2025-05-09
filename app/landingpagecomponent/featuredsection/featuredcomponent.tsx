@@ -2,19 +2,26 @@
 import { motion } from "framer-motion";
 import styles from "./featuredcomponent.module.css";
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 
 export default function FeaturedComponent() {
-  // Define the images to be used for each category
-  const images = [
-    "/clothes-image.jpg",
-    "/technology-image.jpg",
-    "/furniture-image.jpg",
+  const categories = [
+    { label: "Clothes", image: "/clothes-image.jpg" },
+    { label: "Technology", image: "/technology-image.jpg" },
+    { label: "Furniture", image: "/furniture-image.jpg" },
   ];
 
   return (
     <section className={styles.featured}>
       <div className={styles.banner}>
-        {/* Trending Label */}
+        {/* Background image using next/image */}
+        <Image
+          src="/featuredsectionimage.jpg"
+          alt="Featured background"
+          fill
+          className={styles.bannerImage}
+          priority
+        />
         <div className={styles.labelContainer}>
           <h2 className={styles.trendingLabel}>Trending Categories</h2>
         </div>
@@ -31,77 +38,38 @@ export default function FeaturedComponent() {
 
         {/* Category Buttons */}
         <div className={styles.buttonsContainer}>
-          <motion.div
-            className={styles.button}
-            whileHover={{
-              scale: 1.1, // Scale up the button on hover
-              rotate: 5, // Add slight rotation
-              transition: { type: "spring", stiffness: 300 }, // Smooth spring transition
-            }}
-            whileTap={{
-              scale: 1.05, // Slightly reduce the scale on tap (for mobile interaction)
-              rotate: 2, // Slight rotation on tap
-              transition: { type: "spring", stiffness: 250 },
-            }}
-          >
-            <div className={styles.buttonLabel}>Clothes</div>
-            <div
-              className={styles.buttonPlaceholder}
-              style={{ backgroundImage: `url(${images[0]})` }} // Dynamically set the background image
+          {categories.map((cat, index) => (
+            <motion.div
+              className={styles.button}
+              key={index}
+              whileHover={{
+                scale: 1.1,
+                rotate: 5,
+                transition: { type: "spring", stiffness: 300 },
+              }}
+              whileTap={{
+                scale: 1.05,
+                rotate: 2,
+                transition: { type: "spring", stiffness: 250 },
+              }}
             >
-              <div className={styles.iconOverlay}>
-                <ArrowRight size={16} />
+              <div className={styles.buttonLabel}>{cat.label}</div>
+              <div className={styles.buttonPlaceholder}>
+                <Image
+                  src={cat.image}
+                  alt={cat.label}
+                  fill
+                  className={styles.image}
+                  style={{ objectFit: "cover" }}
+                  sizes="(max-width: 768px) 100vw, 120px"
+                  priority={index === 0}
+                />
+                <div className={styles.iconOverlay}>
+                  <ArrowRight size={16} />
+                </div>
               </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            className={styles.button}
-            whileHover={{
-              scale: 1.1, // Scale up the button on hover
-              rotate: 5, // Add slight rotation
-              transition: { type: "spring", stiffness: 300 }, // Smooth spring transition
-            }}
-            whileTap={{
-              scale: 1.1,
-              rotate: 2, // Slight rotation on tap
-              transition: { type: "spring", stiffness: 250 },
-            }}
-          >
-            <div className={styles.buttonLabel}>Technology</div>
-            <div
-              className={styles.buttonPlaceholder}
-              style={{ backgroundImage: `url(${images[1]})` }} // Dynamically set the background image
-            >
-              <div className={styles.iconOverlay}>
-                <ArrowRight size={16} />
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            className={styles.button}
-            whileHover={{
-              scale: 1.1, // Scale up the button on hover
-              rotate: 5, // Add slight rotation
-              transition: { type: "spring", stiffness: 300 }, // Smooth spring transition
-            }}
-            whileTap={{
-              scale: 1.1,
-              rotate: 2, // Slight rotation on tap
-              transition: { type: "spring", stiffness: 250 },
-            }}
-          >
-            <div className={styles.buttonLabel}>Furniture</div>
-            <div
-              className={styles.buttonPlaceholder}
-              style={{ backgroundImage: `url(${images[2]})` }} // Dynamically set the background image
-            >
-              <div className={styles.iconOverlay}>
-                <ArrowRight size={16} />
-              </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
