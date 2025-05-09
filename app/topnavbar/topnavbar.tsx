@@ -1,6 +1,7 @@
 "use client";
 import styles from "./topnavbar.module.css";
 import { useState } from "react";
+import Link from "next/link";
 import SearchComponent from "./searchcomponent/searchcomponent";
 
 export default function TopNavbar() {
@@ -10,13 +11,24 @@ export default function TopNavbar() {
     <>
       <nav className={styles.navbar}>
         <ul className={styles.navList}>
-          <li className={styles.navItem}>Home</li>
-          <li className={styles.navItem}>Shop</li>
-          <li className={styles.navItem} onClick={() => setShowSearch(true)}>
+          <li className={styles.navItem}>
+            <Link href="/">Home</Link>
+          </li>
+          <li className={styles.navItem}>
+            <Link href="/marketplace">Marketplace</Link>
+          </li>
+          <li
+            className={styles.navItem}
+            onClick={() => setShowSearch(true)}
+            style={{ cursor: "pointer" }}
+          >
             Search
           </li>
-          <li className={styles.navItem}>Bookmarks</li>
-          <li className={styles.navItem}>Profile</li>
+          <li className={styles.navItem}>
+            {/* We'll decide on overlay vs. page later */}
+            <span style={{ cursor: "pointer" }}>Bookmarks</span>
+          </li>
+          <li className={styles.navItem}>My Account</li>
         </ul>
       </nav>
 
