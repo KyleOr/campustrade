@@ -6,16 +6,7 @@ import {
   MotionValue,
 } from "framer-motion";
 import { useRef } from "react";
-import {
-  BadgeCheck,
-  School,
-  PackageCheck,
-  ShieldCheck,
-  Users,
-  Clock,
-  Handshake,
-  Smartphone,
-} from "lucide-react";
+import { BadgeCheck, School, PackageCheck, ShieldCheck } from "lucide-react";
 import styles from "./trustandservicecomponent.module.css";
 
 const trustPoints = [
@@ -91,10 +82,11 @@ function TiltCard({
   const rotateY = useTransform(x, [0, 1], [-10, 10]);
   const scale = useTransform(
     [x as MotionValue<number>, y as MotionValue<number>],
-    ([xVal, yVal]: [number, number]) =>
-      1 + (xVal - 0.5) * 0.04 + (yVal - 0.5) * 0.04
+    (values: number[]) => {
+      const [xVal, yVal] = values;
+      return 1 + (xVal - 0.5) * 0.04 + (yVal - 0.5) * 0.04;
+    }
   );
-
   const handleMouseMove = (e: React.MouseEvent) => {
     const bounds = ref.current?.getBoundingClientRect();
     if (!bounds) return;

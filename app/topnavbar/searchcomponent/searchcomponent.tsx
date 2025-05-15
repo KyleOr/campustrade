@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { Search, SlidersHorizontal } from "lucide-react";
 import styles from "./searchcomponent.module.css";
 
@@ -12,6 +12,11 @@ export default function SearchComponent({ onClose }: Props) {
   const [isClosing, setIsClosing] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isOpen, setIsOpen] = useState(false); // track if the results are open or not
+
+  const triggerClose = useCallback(() => {
+    setIsClosing(true);
+    setTimeout(onClose, 300);
+  }, [onClose]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -32,7 +37,7 @@ export default function SearchComponent({ onClose }: Props) {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleEsc);
     };
-  }, []);
+  }, [triggerClose]);
 
   useEffect(() => {
     if (searchTerm) {
@@ -41,11 +46,6 @@ export default function SearchComponent({ onClose }: Props) {
       setIsOpen(false); // Close when empty
     }
   }, [searchTerm]);
-
-  const triggerClose = () => {
-    setIsClosing(true);
-    setTimeout(onClose, 300);
-  };
 
   return (
     <div
@@ -73,7 +73,7 @@ export default function SearchComponent({ onClose }: Props) {
             <div className={styles.searchResults}>
               <div className={styles.resultsLeft}>
                 <div className={styles.suggestionItem}>
-                  Search result for "{searchTerm}"
+                  Search result for &quot;{searchTerm}&quot;
                 </div>
                 <div className={styles.suggestionItem}>
                   Autofill suggestion 1

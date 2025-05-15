@@ -21,7 +21,7 @@ export default function HeroComponent() {
             more.
           </p>
           <p className={styles.subtextRight}>
-            Fast. Local. Student-powered. Let's trade smarter.
+            Fast. Local. Student-powered. Let&apos;s trade smarter.
           </p>
         </div>
       </motion.section>
