@@ -10,11 +10,13 @@
 }
 
 .right {
-  flex: 2;
+  flex: 3;
+  background-color: white;
   padding: 60px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  color: black;
 }
 
 .authImage {
@@ -23,21 +25,44 @@
 }
 
 .heading {
-  font-size: 24px;
-  margin-bottom: 20px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.subheading {
+  text-align: center;
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 30px;
+}
+
+.label {
+  font-size: 14px;
+  margin-bottom: 6px;
+  font-weight: 500;
 }
 
 .input {
-  padding: 10px;
-  margin-bottom: 15px;
+  padding: 12px;
+  margin-bottom: 20px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  width: 100%;
+}
+
+.remember {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  margin-bottom: 25px;
 }
 
 .button {
   padding: 12px;
-  background-color: #0070f3;
+  background-color: black;
   color: white;
   font-size: 16px;
   border: none;
@@ -46,24 +71,42 @@
 }
 
 .button:hover {
-  background-color: #005bb5;
+  background-color: #333;
 }
 
 .toggle {
   margin-top: 20px;
   font-size: 14px;
+  color: #777;
+  text-align: center;
 }
 
 .link {
   background: none;
   border: none;
-  color: #0070f3;
+  color: black;
   cursor: pointer;
-  text-decoration: underline;
+  font-weight: bold;
   font-size: 14px;
-  padding: 0;
+  margin-left: 4px;
 }
 
 .link:hover {
-  color: #005bb5;
+  text-decoration: underline;
+}
+
+.divider {
+  text-align: center;
+  margin: 30px 0 10px;
+  font-size: 12px;
+  color: #999;
+}
+
+.googleButton {
+  padding: 10px;
+  background-color: white;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
 }

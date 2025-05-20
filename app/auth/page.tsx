@@ -57,29 +57,51 @@ export default function AuthPage() {
       </div>
       <div className={styles.right}>
         <h2 className={styles.heading}>{isLogin ? "Login" : "Register"}</h2>
+        <p className={styles.subheading}>
+          Welcome back! Please log in to your account
+        </p>
 
+        <label className={styles.label} htmlFor="email">
+          Email
+        </label>
         <input
           className={styles.input}
-          placeholder="Email"
+          id="email"
+          placeholder="e.g. john@university.edu"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+
+        <label className={styles.label} htmlFor="password">
+          Password
+        </label>
         <input
           className={styles.input}
-          placeholder="Password"
+          id="password"
+          placeholder="••••••••"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+
+        <div className={styles.remember}>
+          <input type="checkbox" id="remember" style={{ marginRight: 8 }} />
+          <label htmlFor="remember">Remember me</label>
+        </div>
+
         <button className={styles.button} onClick={handleSubmit}>
           {isLogin ? "Login" : "Register"}
         </button>
+
         <p className={styles.toggle}>
-          {isLogin ? "Need an account?" : "Already have an account?"}{" "}
+          {isLogin ? "Don't have an account?" : "Already have an account?"}
           <button className={styles.link} onClick={() => setIsLogin(!isLogin)}>
-            {isLogin ? "Register" : "Login"}
+            {isLogin ? "Sign Up" : "Login"}
           </button>
         </p>
+
+        <p className={styles.divider}>or continue with</p>
+        <button className={styles.googleButton}>Continue with Google</button>
       </div>
     </div>
   );
