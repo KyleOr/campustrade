@@ -7,8 +7,11 @@ import {
 } from "firebase/auth";
 import { createUserInFirestore } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
+import styles from "./authpage.module.css";
+import Image from "next/image";
+import authImage from "/public/auth.jpg";
 
-export default function AccountPage() {
+export default function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
@@ -22,7 +25,7 @@ export default function AccountPage() {
           email,
           password
         );
-        const username = email.split("@")[0]; // e.g., "kyle"
+        const username = email.split("@")[0];
         router.push(`/${username}`);
       } else {
         const userCredential = await createUserWithEmailAndPassword(
@@ -42,38 +45,42 @@ export default function AccountPage() {
   };
 
   return (
-    <div className="p-6 max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-4">
-        {isLogin ? "Login" : "Register"}
-      </h2>
-      <input
-        className="w-full mb-2 p-2 border rounded"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        className="w-full mb-4 p-2 border rounded"
-        placeholder="Password"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button
-        className="w-full bg-blue-500 text-white py-2 rounded"
-        onClick={handleSubmit}
-      >
-        {isLogin ? "Login" : "Register"}
-      </button>
-      <p className="mt-4 text-sm">
-        {isLogin ? "Need an account?" : "Already have an account?"}{" "}
-        <button
-          className="text-blue-600 underline"
-          onClick={() => setIsLogin(!isLogin)}
-        >
-          {isLogin ? "Register" : "Login"}
+    <div className={styles.container}>
+      <div className={styles.left}>
+        <Image
+          src={authImage}
+          alt="Login illustration"
+          className={styles.authImage}
+          fill
+          style={{ objectFit: "cover" }}
+        />
+      </div>
+      <div className={styles.right}>
+        <h2 className={styles.heading}>{isLogin ? "Login" : "Register"}</h2>
+
+        <input
+          className={styles.input}
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          className={styles.input}
+          placeholder="Password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button className={styles.button} onClick={handleSubmit}>
+          {isLogin ? "Login" : "Register"}
         </button>
-      </p>
+        <p className={styles.toggle}>
+          {isLogin ? "Need an account?" : "Already have an account?"}{" "}
+          <button className={styles.link} onClick={() => setIsLogin(!isLogin)}>
+            {isLogin ? "Register" : "Login"}
+          </button>
+        </p>
+      </div>
     </div>
   );
 }
