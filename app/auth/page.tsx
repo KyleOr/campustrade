@@ -92,16 +92,24 @@ export default function AuthPage() {
           <div className={styles.logo}>CampusTrade</div>
 
           <div className={styles.bottomContent}>
-            <div>
-              <div className={styles.welcomeText}>
-                {isLogin ? "Welcome back!" : "Let's get you registered!"}
-              </div>
-              <div className={styles.welcomeSubtext}>
-                {isLogin
-                  ? "Log in to your account to access the marketplace and connect with students."
-                  : "Create a new account to start trading with students on campus."}
-              </div>
-            </div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={isLogin ? "loginText" : "registerText"}
+                initial={{ opacity: 0, filter: "blur(6px)" }}
+                animate={{ opacity: 1, filter: "blur(0px)" }}
+                exit={{ opacity: 0, filter: "blur(6px)" }}
+                transition={{ duration: 0.45, ease: "easeOut" }}
+              >
+                <div className={styles.welcomeText}>
+                  {isLogin ? "Welcome back!" : "Let's get you registered!"}
+                </div>
+                <div className={styles.welcomeSubtext}>
+                  {isLogin
+                    ? "Log in to your account to access the marketplace and connect with students."
+                    : "Create a new account to start trading with students on campus."}
+                </div>
+              </motion.div>
+            </AnimatePresence>
 
             <div className={styles.footer}>
               CampusTrade © 2025 — All rights reserved
