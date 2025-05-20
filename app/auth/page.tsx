@@ -14,6 +14,7 @@ import authImage from "/public/auth.jpg";
 export default function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
   const router = useRouter();
 
@@ -28,6 +29,11 @@ export default function AuthPage() {
         const username = email.split("@")[0];
         router.push(`/${username}`);
       } else {
+        if (password !== confirmPassword) {
+          alert("Passwords do not match");
+          return;
+        }
+
         const userCredential = await createUserWithEmailAndPassword(
           auth,
           email,
@@ -58,7 +64,9 @@ export default function AuthPage() {
       <div className={styles.right}>
         <h2 className={styles.heading}>{isLogin ? "Login" : "Register"}</h2>
         <p className={styles.subheading}>
-          Welcome back! Please log in to your account
+          {isLogin
+            ? "Welcome back! Please log in to your account"
+            : "Create an account to start using the CampusTrade"}
         </p>
 
         <label className={styles.label} htmlFor="email">
@@ -78,11 +86,27 @@ export default function AuthPage() {
         <input
           className={styles.input}
           id="password"
-          placeholder="••••••••"
           type="password"
+          placeholder="••••••••"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+
+        {!isLogin && (
+          <>
+            <label className={styles.label} htmlFor="confirmPassword">
+              Confirm Password
+            </label>
+            <input
+              className={styles.input}
+              id="confirmPassword"
+              type="password"
+              placeholder="••••••••"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </>
+        )}
 
         <div className={styles.remember}>
           <input type="checkbox" id="remember" style={{ marginRight: 8 }} />
