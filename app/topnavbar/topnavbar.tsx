@@ -1,11 +1,27 @@
 "use client";
 import styles from "./topnavbar.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import SearchComponent from "./searchcomponent/searchcomponent";
+import { auth } from "@/lib/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function TopNavbar() {
   const [showSearch, setShowSearch] = useState(false);
+  const [username, setUsername] = useState<string | null>(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user && user.email) {
+        const name = user.email.split("@")[0];
+        setUsername(name);
+      } else {
+        setUsername(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <>
@@ -25,10 +41,15 @@ export default function TopNavbar() {
             Search
           </li>
           <li className={styles.navItem}>
-            {/* We'll decide on overlay vs. page later */}
             <span style={{ cursor: "pointer" }}>Bookmarks</span>
           </li>
-          <li className={styles.navItem}>My Account</li>
+          <li className={styles.navItem}>
+            {username ? (
+              <Link href={`/${username}`}>{username}</Link>
+            ) : (
+              <Link href="/auth">Sign In</Link>
+            )}
+          </li>
         </ul>
       </nav>
 
