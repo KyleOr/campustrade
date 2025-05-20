@@ -85,6 +85,29 @@ export default function AuthPage() {
           fill
           style={{ objectFit: "cover" }}
         />
+
+        <div className={styles.overlay}></div>
+
+        <div className={styles.overlayContent}>
+          <div className={styles.logo}>CampusTrade</div>
+
+          <div className={styles.bottomContent}>
+            <div>
+              <div className={styles.welcomeText}>
+                {isLogin ? "Welcome back!" : "Let's get you registered!"}
+              </div>
+              <div className={styles.welcomeSubtext}>
+                {isLogin
+                  ? "Log in to your account to access the marketplace and connect with students."
+                  : "Create a new account to start trading with students on campus."}
+              </div>
+            </div>
+
+            <div className={styles.footer}>
+              CampusTrade © 2025 — All rights reserved
+            </div>
+          </div>
+        </div>
       </div>
       <div className={styles.right}>
         <AnimatePresence mode="wait">

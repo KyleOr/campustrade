@@ -4,10 +4,73 @@
   width: 100%;
 }
 
+/* LEFT SIDE */
 .left {
   flex: 5;
   position: relative;
+  overflow: hidden;
 }
+
+.authImage {
+  object-fit: cover;
+  object-position: right center;
+  z-index: 0;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.overlayContent {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
+  color: white;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.bottomContent {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.logo {
+  font-size: 2rem;
+  font-weight: thin;
+  letter-spacing: -1px;
+}
+
+.welcomeText {
+  font-size: 3.5rem;
+  font-weight: bold;
+}
+
+.welcomeSubtext {
+  font-size: 1.5rem;
+  font-weight: thin;
+  margin-top: 8px;
+  opacity: 0.85;
+  max-width: 90%;
+  letter-spacing: -1px;
+}
+
+.footer {
+  font-size: 0.85rem;
+  opacity: 0.7;
+  margin-top: 32px;
+}
+
+
+
+/* RIGHT SIDE */
 
 .right {
   flex: 3;
@@ -19,10 +82,6 @@
   color: black;
 }
 
-.authImage {
-  object-fit: cover;
-  object-position: right center;
-}
 
 .heading {
   text-align: center;
