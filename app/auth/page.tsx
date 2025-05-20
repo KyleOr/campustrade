@@ -193,18 +193,20 @@ export default function AuthPage() {
             </p>
 
             <p className={styles.divider}>or continue with</p>
-            <button
-              className={styles.googleButton}
-              onClick={handleGoogleSignIn}
-            >
-              <Image
-                src="/continuewithgoogle.svg"
-                alt="Continue with Google"
-                width={240}
-                height={30}
-                priority
-              />
-            </button>
+            <div className={styles.googleButtonWrapper}>
+              <button
+                className={styles.googleButton}
+                onClick={handleGoogleSignIn}
+              >
+                <Image
+                  src="/continuewithgoogle.svg"
+                  alt="Continue with Google"
+                  width={240}
+                  height={30}
+                  priority
+                />
+              </button>
+            </div>
           </motion.div>
         </AnimatePresence>
       </div>

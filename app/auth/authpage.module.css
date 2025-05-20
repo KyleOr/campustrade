@@ -169,20 +169,28 @@
   font-size: 12px;
   color: #999;
 }
+.googleButtonWrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
 
 .googleButton {
-  background: none;
-  border: 1px solid #ddd;
-  padding: 0;
-  cursor: pointer;
+  all: unset; /* resets all native button styles */
   display: flex;
   justify-content: center;
   align-items: center;
 
+  width: fit-content;
+  height: fit-content;
+
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   border-radius: 6px;
+  border: 1px solid #ddd;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
 }
+
 
 .googleButton:hover {
   transform: translateY(-3px);
@@ -190,3 +198,55 @@
   border-color: #aaa;
 }
 
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .left {
+    flex: none;
+    height: 300px;
+    width: 100%;
+  }
+
+  .right {
+    flex: none;
+    width: 100%;
+    padding: 32px 20px;
+  }
+
+  .overlayContent {
+    padding: 16px;
+    justify-content: flex-end;
+  }
+
+  .welcomeText {
+    font-size: 2rem;
+  }
+
+  .welcomeSubtext {
+    font-size: 1rem;
+    max-width: 100%;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+  }
+
+  .heading {
+    font-size: 24px;
+  }
+
+  .subheading {
+    font-size: 13px;
+  }
+
+  .input {
+    font-size: 14px;
+  }
+
+  .button {
+    font-size: 15px;
+  }
+}
