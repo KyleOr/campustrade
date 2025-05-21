@@ -1,10 +1,10 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./listingmodal.module.css";
 import { Bookmark } from "lucide-react";
 import { auth, db } from "@/lib/firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 interface ListingModalProps {
   listing: {
@@ -24,24 +24,53 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
+  const [userId, setUserId] = useState<string | null>(null);
+  const [alreadyBookmarked, setAlreadyBookmarked] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [bookmarkStatus, setBookmarkStatus] = useState("Add to Bookmarks");
+
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
         onClose();
       }
     };
+
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         onClose();
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
     document.addEventListener("keydown", handleEscape);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleEscape);
     };
   }, [onClose]);
+
+  // Check auth and bookmark status
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        setUserId(user.uid);
+        const bookmarkRef = doc(db, "users", user.uid, "bookmarks", listing.id);
+        const snapshot = await getDoc(bookmarkRef);
+        if (snapshot.exists()) {
+          setAlreadyBookmarked(true);
+          setBookmarkStatus("Already Bookmarked");
+        }
+      } else {
+        setUserId(null);
+        setAlreadyBookmarked(false);
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [listing.id]);
 
   const handleViewListing = () => {
     onClose();
@@ -49,15 +78,18 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
   };
 
   const handleBookmark = async () => {
-    const user = auth.currentUser;
-
-    if (!user) {
+    if (!userId) {
       alert("Please sign in to bookmark this listing.");
       return;
     }
 
+    if (alreadyBookmarked) {
+      alert("You’ve already bookmarked this listing.");
+      return;
+    }
+
     try {
-      const bookmarkRef = doc(db, "users", user.uid, "bookmarks", listing.id);
+      const bookmarkRef = doc(db, "users", userId, "bookmarks", listing.id);
       await setDoc(bookmarkRef, {
         id: listing.id,
         title: listing.title,
@@ -66,7 +98,8 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
         category: listing.category,
         bookmarkedAt: new Date().toISOString(),
       });
-      alert("Listing bookmarked successfully!");
+      setAlreadyBookmarked(true);
+      setBookmarkStatus("Bookmarked!");
     } catch (error) {
       console.error("Error bookmarking listing:", error);
       alert("Failed to bookmark listing. Please try again.");
@@ -101,9 +134,13 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
           View Full Listing
         </button>
 
-        <button className={styles.bookmarkButton} onClick={handleBookmark}>
+        <button
+          className={styles.bookmarkButton}
+          onClick={handleBookmark}
+          disabled={loading || alreadyBookmarked}
+        >
           <Bookmark size={16} style={{ marginRight: "8px" }} />
-          Add to Bookmarks
+          {userId ? bookmarkStatus : "Sign in to Bookmark"}
         </button>
       </div>
     </div>
