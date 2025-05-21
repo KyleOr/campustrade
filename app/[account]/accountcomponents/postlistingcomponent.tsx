@@ -1,10 +1,10 @@
 "use client";
 import { useEffect, useRef, useState, useCallback } from "react";
-import styles from "./PostListingComponent.module.css";
+import styles from "./postlistingcomponent.module.css";
 
 export default function PostListingComponent() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(false); // controls rendering with animation
+  const [isVisible, setIsVisible] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const boxRef = useRef<HTMLDivElement>(null);
 
