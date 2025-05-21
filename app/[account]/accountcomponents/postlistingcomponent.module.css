@@ -64,3 +64,44 @@
   border: 1px solid black; /* optional for visual clarity */
 }
 
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.submitButton {
+  padding: 8px 16px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.cancelButton {
+  padding: 8px 16px;
+  background-color: #eee;
+  color: black;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+

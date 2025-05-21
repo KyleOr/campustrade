@@ -2,8 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth, db } from "@/lib/firebase";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { auth } from "@/lib/firebase";
 import TopNavbar from "../topnavbar/topnavbar";
 import styles from "./accountpage.module.css";
 import PostListingcomponent from "./accountcomponents/postlistingcomponent";
@@ -38,27 +37,6 @@ export default function AccountPage() {
     await signOut(auth);
     router.push("/auth");
   };
-
-  const handleSubmit = async () => {
-    if (!title || !currentUser) return alert("Please enter a title");
-
-    try {
-      await addDoc(collection(db, "listings"), {
-        title,
-        createdAt: serverTimestamp(),
-        userId: currentUser.uid,
-        userEmail: currentUser.email,
-        username: currentUser.email.split("@")[0],
-      });
-
-      alert("Listing posted!");
-      setTitle("");
-    } catch (err: any) {
-      alert("Error posting listing: " + err.message);
-    }
-  };
-
-  if (loading) return <p className={styles.loading}>Loading...</p>;
 
   return (
     <div className={styles.page}>
