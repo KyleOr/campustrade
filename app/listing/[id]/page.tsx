@@ -9,8 +9,13 @@ interface ListingPageProps {
   };
 }
 
-export default async function ListingPage({ params }: ListingPageProps) {
-  const docRef = doc(db, "listings", params.id);
+export default async function ListingPage({
+  params,
+}: {
+  params: Promise<ListingPageProps["params"]>;
+}) {
+  const { id } = await params;
+  const docRef = doc(db, "listings", id);
   const snapshot = await getDoc(docRef);
 
   if (!snapshot.exists()) notFound();
