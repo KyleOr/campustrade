@@ -3,6 +3,8 @@ import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./listingmodal.module.css";
 import { Bookmark } from "lucide-react";
+import { auth, db } from "@/lib/firebase";
+import { doc, setDoc } from "firebase/firestore";
 
 interface ListingModalProps {
   listing: {
@@ -42,8 +44,33 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
   }, [onClose]);
 
   const handleViewListing = () => {
-    onClose(); // close the modal first
+    onClose();
     router.push(`/listing/${listing.id}`);
+  };
+
+  const handleBookmark = async () => {
+    const user = auth.currentUser;
+
+    if (!user) {
+      alert("Please sign in to bookmark this listing.");
+      return;
+    }
+
+    try {
+      const bookmarkRef = doc(db, "users", user.uid, "bookmarks", listing.id);
+      await setDoc(bookmarkRef, {
+        id: listing.id,
+        title: listing.title,
+        description: listing.description,
+        price: listing.price,
+        category: listing.category,
+        bookmarkedAt: new Date().toISOString(),
+      });
+      alert("Listing bookmarked successfully!");
+    } catch (error) {
+      console.error("Error bookmarking listing:", error);
+      alert("Failed to bookmark listing. Please try again.");
+    }
   };
 
   return (
@@ -74,10 +101,7 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
           View Full Listing
         </button>
 
-        <button
-          className={styles.bookmarkButton}
-          onClick={() => console.log("Bookmark clicked!")}
-        >
+        <button className={styles.bookmarkButton} onClick={handleBookmark}>
           <Bookmark size={16} style={{ marginRight: "8px" }} />
           Add to Bookmarks
         </button>
