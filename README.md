@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎓 CampusTrade
 
-## Getting Started
+**CampusTrade** is a web application that allows university students to buy, sell, and trade secondhand items within their campus community. Built with a modern web stack and deployed using Docker and Kubernetes on Google Cloud.
 
-First, run the development server:
+🌐 **Live Demo:** [https://campustradex.vercel.app/](https://campustradex.vercel.app/)  
+_Deployed via Vercel for quick public access._
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- 🛒 List and browse used items
+- 🔍 Search and filter functionality
+- 📦 Item detail views
+- 👤 User authentication (if implemented)
+- ☁️ Containerized with Docker
+- ⚙️ Deployed using Kubernetes (GKE)
+- 🌐 Publicly accessible via LoadBalancer service
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🧰 Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+| Layer           | Technology                        |
+|----------------|------------------------------------|
+| Frontend       | Next.js                            |
+| Backend        | Node.js                            |
+| Database       | Firebase                           |
+| Containerization| Docker                            |
+| Orchestration  | Kubernetes (Google Kubernetes Engine) |
+| Image Registry | Docker Hub                         |
+| Cloud Provider | Google Cloud Platform (GCP)        |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## ☁️ Deployment Overview
+### 1. Docker Image pushed to Docker Hub:
+```docker.io/s223399201/campustrade:latest```
 
-## Deploy on Vercel
+### 2. Kubernetes YAML Files:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```deployment.yaml``` defines the Deployment and LoadBalancer Service.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 3. Cluster:
+   - Created on GKE (Google Kubernetes Engine)
+   - Autoscaling and auto-repair enabled
+
+### 4. Access:
+   - External IP via LoadBalancer Service
+
+## 🏠 Landing Page
+
+![image](https://github.com/user-attachments/assets/798451a1-93c6-438a-b727-048f9a163588)
+
+## 📝 Author
+Oris (s223399201)
+
+Built as part of SIT323 – Cloud Native Application Development
+
+Deakin University – Trimester 1, 2025
+
