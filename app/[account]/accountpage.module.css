@@ -1,0 +1,240 @@
+.page {
+  background-color: white;
+  min-height: 100vh;
+  color: black; /* Base text color fallback */
+}
+
+
+/* Header Section */
+
+.headerSection {
+  max-width: 1200px;
+  margin: 20px auto 0;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: black;
+}
+
+
+.profileInfo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profilePic {
+  width: 18vw;
+  height: 18vw;
+  border-radius: 50%;
+  background-color: #ccc;
+}
+
+.textInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.profileName {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+  color: black;
+}
+
+.profileEmail {
+  font-size: 1rem;
+  color: black;
+}
+
+.buttonRow {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.followButton
+{
+  padding: 6px 14px;
+  border: 1px solid black;
+  background-color: black;
+  color: white;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.followButton:hover{
+  background-color: white;
+  color: black;
+}
+
+.messageButton {
+  padding: 6px 14px;
+  border: 1px solid black;
+  background-color: white;
+  color: black;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+
+.messageButton:hover {
+  background-color: black;
+  color: white;
+}
+
+
+.stats {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.statLabel {
+  font-size: 0.8rem;
+  color: #666;
+  text-align: left;
+  margin-bottom: -10px;
+}
+
+.statValue {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: black;
+  letter-spacing: 1px;;
+  text-align: center;
+}
+
+.headerDivider {
+  max-width: 1200px;
+  margin: 20px auto 0;
+  height: 1px;
+  background-color: #ddd;
+}
+
+
+
+
+
+
+
+
+.mainSection {
+  display: flex;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  gap: 40px;
+  color: black;
+}
+
+.sidebar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: black;
+}
+
+.listings {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: black;
+}
+
+.signOut {
+  padding: 10px 20px;
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.signOut:hover {
+  background-color: #b71c1c;
+}
+
+.listingBox {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: black;
+}
+
+.listingTitle {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: black;
+}
+
+.input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  width: 100%;
+  color: black;
+}
+
+.postButton {
+  padding: 10px;
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.postButton:hover {
+  background-color: #1b5e20;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: black;
+}
+
+.listingGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  padding: 16px;
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+  color: black;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2rem;
+  color: black;
+}
