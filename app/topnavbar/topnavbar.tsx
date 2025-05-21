@@ -7,9 +7,11 @@ import { auth } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMediaQuery } from "react-responsive";
+import BookmarkModal from "../components/bookmarkmodal";
 
 export default function TopNavbar() {
   const [showSearch, setShowSearch] = useState(false);
+  const [showBookmarks, setShowBookmarks] = useState(false);
   const [username, setUsername] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -32,7 +34,7 @@ export default function TopNavbar() {
     { name: "Home", href: "/" },
     { name: "Marketplace", href: "/marketplace" },
     { name: "Search", onClick: () => setShowSearch(true) },
-    { name: "Bookmarks", onClick: () => {} },
+    { name: "Bookmarks", onClick: () => setShowBookmarks(true) },
     {
       name: username ? username : "Sign In",
       href: username ? `/${username}` : "/auth",
@@ -207,6 +209,9 @@ export default function TopNavbar() {
       </nav>
 
       {showSearch && <SearchComponent onClose={() => setShowSearch(false)} />}
+      {showBookmarks && (
+        <BookmarkModal onClose={() => setShowBookmarks(false)} />
+      )}
     </>
   );
 }
