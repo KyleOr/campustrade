@@ -6,6 +6,7 @@ import { auth, db } from "@/lib/firebase";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import TopNavbar from "../topnavbar/topnavbar";
 import styles from "./accountpage.module.css";
+import PostListingcomponent from "./accountcomponents/postlistingcomponent";
 
 export default function AccountPage() {
   const router = useRouter();
@@ -72,8 +73,24 @@ export default function AccountPage() {
             <h2 className={styles.profileName}>{params.account}</h2>
             <p className={styles.profileEmail}>{currentUser?.email}</p>
             <div className={styles.buttonRow}>
-              <button className={styles.followButton}>Follow</button>
-              <button className={styles.messageButton}>Message</button>
+              {currentUser?.email?.split("@")[0] === params.account ? (
+                <>
+                  <button
+                    className={styles.followButton}
+                    onClick={handleSignOut}
+                  >
+                    Sign Out
+                  </button>
+                  <button className={styles.messageButton}>
+                    Your Messages
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button className={styles.followButton}>Follow</button>
+                  <button className={styles.messageButton}>Message</button>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -100,17 +117,15 @@ export default function AccountPage() {
       <div className={styles.mainSection}>
         {/* Left Sidebar */}
         <div className={styles.sidebar}>
+          <PostListingcomponent />
+
           <div className={styles.listingBox}>
-            <h3 className={styles.listingTitle}>Post a New Listing</h3>
-            <input
-              className={styles.input}
-              placeholder="Title (e.g. Bike)"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <button className={styles.postButton} onClick={handleSubmit}>
-              Post Listing
-            </button>
+            <h3 className={styles.listingTitle}>About</h3>
+            <p className={styles.bioText}>
+              Just a placeholder bio for now. Here you can write a short
+              description about yourself, your interests, or what you usually
+              list.
+            </p>
           </div>
         </div>
 

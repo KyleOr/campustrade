@@ -139,6 +139,8 @@
   color: black;
 }
 
+/* Left side */
+
 .sidebar {
   flex: 1;
   display: flex;
@@ -187,29 +189,18 @@
   color: black;
 }
 
-.input {
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-  width: 100%;
-  color: black;
+
+
+.bioText {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #333;
 }
 
-.postButton {
-  padding: 10px;
-  background-color: #2e7d32;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
 
-.postButton:hover {
-  background-color: #1b5e20;
-}
+
+
+/* Right side */
 
 .sectionTitle {
   font-size: 1.5rem;
