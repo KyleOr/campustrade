@@ -50,14 +50,17 @@
 .postButton {
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
-  background-color: #0070f3;
+  background-color: black;
   color: white;
-  border: none;
+  border: 1px solid transparent;
   border-radius: 0.5rem;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.3s ease, color 0.2s ease;
 }
 
 .postButton:hover {
-  background-color: #005ec2;
+  background-color: white;
+  color: black;
+  border: 1px solid black; /* optional for visual clarity */
 }
+

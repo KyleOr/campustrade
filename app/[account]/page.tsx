@@ -117,7 +117,9 @@ export default function AccountPage() {
       <div className={styles.mainSection}>
         {/* Left Sidebar */}
         <div className={styles.sidebar}>
-          <PostListingcomponent />
+          {currentUser?.email?.split("@")[0] === params.account && (
+            <PostListingcomponent />
+          )}
 
           <div className={styles.listingBox}>
             <h3 className={styles.listingTitle}>About</h3>
