@@ -2,17 +2,26 @@
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  Timestamp,
+} from "firebase/firestore";
+import { auth, db } from "@/lib/firebase";
 import TopNavbar from "../topnavbar/topnavbar";
-import styles from "./accountpage.module.css";
 import PostListingcomponent from "./accountcomponents/postlistingcomponent";
+import ListingModal from "../components/listingmodal";
+import styles from "./accountpage.module.css";
 
 export default function AccountPage() {
   const router = useRouter();
   const params = useParams();
   const [loading, setLoading] = useState(true);
-  const [title, setTitle] = useState("");
   const [currentUser, setCurrentUser] = useState<any>(null);
+  const [listings, setListings] = useState<any[]>([]);
+  const [selectedListing, setSelectedListing] = useState<any>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -33,18 +42,40 @@ export default function AccountPage() {
     return () => unsubscribe();
   }, [params.account]);
 
+  useEffect(() => {
+    const fetchListings = async () => {
+      try {
+        const q = query(
+          collection(db, "listings"),
+          where("username", "==", params.account)
+        );
+        const snapshot = await getDocs(q);
+        const data = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setListings(data);
+      } catch (err) {
+        console.error("Error fetching listings:", err);
+      }
+    };
+
+    fetchListings();
+  }, [params.account]);
+
   const handleSignOut = async () => {
     await signOut(auth);
     router.push("/auth");
   };
 
+  if (loading) return <p className={styles.loading}>Loading...</p>;
+
   return (
     <div className={styles.page}>
       <TopNavbar />
 
-      {/* Top Header Section */}
+      {/* Header */}
       <div className={styles.headerSection}>
-        {/* Left: Profile Picture & Info */}
         <div className={styles.profileInfo}>
           <div className={styles.profilePic}></div>
           <div className={styles.textInfo}>
@@ -73,7 +104,6 @@ export default function AccountPage() {
           </div>
         </div>
 
-        {/* Right: Stats */}
         <div className={styles.stats}>
           <div className={styles.statItem}>
             <span className={styles.statLabel}>Followers</span>
@@ -85,13 +115,13 @@ export default function AccountPage() {
           </div>
           <div className={styles.statItem}>
             <span className={styles.statLabel}>Listings</span>
-            <span className={styles.statValue}>7</span>
+            <span className={styles.statValue}>{listings.length}</span>
           </div>
         </div>
       </div>
       <div className={styles.headerDivider}></div>
 
-      {/* Main 2-Column Section */}
+      {/* Main Section */}
       <div className={styles.mainSection}>
         {/* Left Sidebar */}
         <div className={styles.sidebar}>
@@ -113,14 +143,27 @@ export default function AccountPage() {
         <div className={styles.listings}>
           <h2 className={styles.sectionTitle}>Your Listings</h2>
           <div className={styles.listingGrid}>
-            {[1, 2, 3].map((item) => (
-              <div key={item} className={styles.card}>
-                <p>Listing #{item}</p>
+            {listings.map((listing) => (
+              <div
+                key={listing.id}
+                className={styles.card}
+                onClick={() => setSelectedListing(listing)}
+              >
+                <h4>{listing.title}</h4>
+                <p>${listing.price}</p>
               </div>
             ))}
           </div>
         </div>
       </div>
+
+      {/* Listing Modal */}
+      {selectedListing && (
+        <ListingModal
+          listing={selectedListing}
+          onClose={() => setSelectedListing(null)}
+        />
+      )}
     </div>
   );
 }
