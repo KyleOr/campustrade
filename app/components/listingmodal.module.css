@@ -11,6 +11,7 @@
 
 .modal {
   background: white;
+    color: black;
   border-radius: 12px;
   padding: 2rem;
   width: 90%;
@@ -59,6 +60,26 @@
   font-size: 0.9rem;
   color: #666;
 }
+
+.viewButton {
+  padding: 0.5rem 1rem;
+  border: 1px solid black;
+  border-radius: 4px;
+  color: black;
+  font-weight: bold;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  margin-top: 5px;
+}
+
+.viewButton:hover {
+  background-color: black;
+  color: white;
+}
+
+
 
 /* Animations */
 @keyframes fadeIn {

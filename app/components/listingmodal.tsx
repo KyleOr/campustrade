@@ -69,7 +69,6 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
           )}
         </div>
 
-        {/* 🚀 View Full Listing Button */}
         <button className={styles.viewButton} onClick={handleViewListing}>
           View Full Listing
         </button>

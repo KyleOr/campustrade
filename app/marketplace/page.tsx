@@ -2,10 +2,14 @@
 import { useEffect, useState } from "react";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import styles from "./marketplacepage.module.css";
+import ListingModal from "../components/listingmodal";
+import TopNavbar from "@/app/topnavbar/topnavbar";
 
 export default function MarketplacePage() {
   const [listings, setListings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedListing, setSelectedListing] = useState<any | null>(null);
 
   useEffect(() => {
     const fetchListings = async () => {
@@ -30,21 +34,47 @@ export default function MarketplacePage() {
     fetchListings();
   }, []);
 
-  if (loading) return <p className="p-4">Loading listings...</p>;
-
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Marketplace</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {listings.map((listing) => (
-          <div key={listing.id} className="border rounded p-4 shadow bg-white">
-            <h2 className="text-lg font-semibold mb-2">{listing.title}</h2>
-            <p className="text-sm text-gray-600">
-              Posted by: {listing.username}
-            </p>
-          </div>
-        ))}
+    <>
+      <TopNavbar />
+      <div className={styles.page}>
+        <div className={styles.sidebar}>
+          <h2 className={styles.sidebarTitle}>Filter Listings</h2>
+          <p className={styles.filterNote}>
+            Search bar, category filters, etc.
+          </p>
+        </div>
+
+        <div className={styles.main}>
+          <h1 className={styles.heading}>Marketplace</h1>
+          {loading ? (
+            <p className={styles.loading}>Loading listings...</p>
+          ) : (
+            <div className={styles.grid}>
+              {listings.map((listing) => (
+                <div
+                  key={listing.id}
+                  className={styles.card}
+                  onClick={() => setSelectedListing(listing)}
+                >
+                  <h3 className={styles.cardTitle}>{listing.title}</h3>
+                  <p className={styles.cardPrice}>${listing.price}</p>
+                  <p className={styles.cardMeta}>
+                    Posted by: {listing.username}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {selectedListing && (
+          <ListingModal
+            listing={selectedListing}
+            onClose={() => setSelectedListing(null)}
+          />
+        )}
       </div>
-    </div>
+    </>
   );
 }
