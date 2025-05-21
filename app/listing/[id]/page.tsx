@@ -1,8 +1,11 @@
+"use client";
+
 import { db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { notFound } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import styles from "./listingpage.module.css";
 import TopNavbar from "@/app/topnavbar/topnavbar";
+import { useEffect, useState } from "react";
 
 interface ListingPageProps {
   params: {
@@ -10,20 +13,40 @@ interface ListingPageProps {
   };
 }
 
-export default async function ListingPage({ params }: ListingPageProps) {
-  const listingRef = doc(db, "listings", params.id);
-  const snapshot = await getDoc(listingRef);
+export default function ListingPage({ params }: ListingPageProps) {
+  const router = useRouter();
+  const [data, setData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
-  if (!snapshot.exists()) {
-    return notFound(); // Show 404 if the listing is not found
+  useEffect(() => {
+    const fetchListing = async () => {
+      const listingRef = doc(db, "listings", params.id);
+      const snapshot = await getDoc(listingRef);
+
+      if (!snapshot.exists()) {
+        notFound();
+        return;
+      }
+
+      setData(snapshot.data());
+      setLoading(false);
+    };
+
+    fetchListing();
+  }, [params.id]);
+
+  if (loading || !data) {
+    return <div className={styles.page}>Loading...</div>;
   }
-
-  const data = snapshot.data();
 
   return (
     <div className={styles.page}>
       <TopNavbar />
       <div className={styles.container}>
+        <button className={styles.backButton} onClick={() => router.back()}>
+          ← Back
+        </button>
+
         <h1 className={styles.title}>{data.title}</h1>
         <p className={styles.price}>${data.price}</p>
         <p className={styles.category}>Category: {data.category}</p>
