@@ -2,6 +2,9 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { Search, SlidersHorizontal } from "lucide-react";
 import styles from "./searchcomponent.module.css";
+import { db } from "@/lib/firebase";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import Link from "next/link";
 
 interface Props {
   onClose: () => void;
@@ -39,13 +42,45 @@ export default function SearchComponent({ onClose }: Props) {
     };
   }, [triggerClose]);
 
+  const [listings, setListings] = useState<any[]>([]);
+  const [filtered, setFiltered] = useState<any[]>([]);
+
   useEffect(() => {
-    if (searchTerm) {
-      setIsOpen(true); // Open the results when searchTerm is not empty
+    const fetchListings = async () => {
+      try {
+        const q = query(
+          collection(db, "listings"),
+          orderBy("createdAt", "desc")
+        );
+        const snapshot = await getDocs(q);
+        const data = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setListings(data);
+      } catch (err) {
+        console.error("Error fetching listings:", err);
+      }
+    };
+    fetchListings();
+  }, []);
+
+  useEffect(() => {
+    if (searchTerm.trim()) {
+      setIsOpen(true);
+      const term = searchTerm.toLowerCase();
+      const filteredResults = listings.filter(
+        (item) =>
+          item.title.toLowerCase().includes(term) ||
+          item.description.toLowerCase().includes(term) ||
+          item.category?.toLowerCase().includes(term)
+      );
+      setFiltered(filteredResults.slice(0, 5)); // top 5 results
     } else {
-      setIsOpen(false); // Close when empty
+      setIsOpen(false);
+      setFiltered([]);
     }
-  }, [searchTerm]);
+  }, [searchTerm, listings]);
 
   return (
     <div
@@ -72,29 +107,40 @@ export default function SearchComponent({ onClose }: Props) {
           {searchTerm && (
             <div className={styles.searchResults}>
               <div className={styles.resultsLeft}>
-                <div className={styles.suggestionItem}>
-                  Search result for &quot;{searchTerm}&quot;
-                </div>
-                <div className={styles.suggestionItem}>
-                  Autofill suggestion 1
-                </div>
-                <div className={styles.suggestionItem}>
-                  Autofill suggestion 2
-                </div>
-                <div className={styles.suggestionItem}>
-                  Autofill suggestion 3
-                </div>
-                <div className={styles.suggestionItem}>
-                  Autofill suggestion 4
-                </div>
-                <div className={styles.suggestionItem}>
-                  Autofill suggestion 5
-                </div>
+                {filtered.length === 0 ? (
+                  <div className={styles.suggestionItem}>
+                    No matches found for &quot;{searchTerm}&quot;
+                  </div>
+                ) : (
+                  filtered.map((item) => (
+                    <div key={item.id} className={styles.suggestionItem}>
+                      {item.title} — ${item.price}
+                    </div>
+                  ))
+                )}
               </div>
+
               <div className={styles.resultsRight}>
-                <div className={styles.placeholderTopResult}>
-                  Top result preview here (coming soon)
-                </div>
+                {filtered.length > 0 ? (
+                  <div className={styles.resultCard}>
+                    <h3 className={styles.cardTitle}>{filtered[0].title}</h3>
+                    <p className={styles.cardPrice}>${filtered[0].price}</p>
+                    <p className={styles.cardDesc}>{filtered[0].description}</p>
+                    <p className={styles.cardMeta}>
+                      Category: {filtered[0].category || "Uncategorized"}
+                    </p>
+                    <Link
+                      href={`/listing/${filtered[0].id}`}
+                      className={styles.viewButton}
+                    >
+                      View Listing
+                    </Link>
+                  </div>
+                ) : (
+                  <div className={styles.placeholderTopResult}>
+                    No top result to show
+                  </div>
+                )}
               </div>
             </div>
           )}

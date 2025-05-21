@@ -87,7 +87,7 @@
   }
   
   .resultsWrapper.open {
-    height: 200px; /* or whatever height fits your content */
+    height: 400px; /* or whatever height fits your content */
     opacity: 1;
     margin-top: 1.5rem;
   }
@@ -103,8 +103,9 @@
     flex: 2;
     display: flex;
     flex-direction: column;
+    font-weight: bold;
     gap: 0.75rem;
-    color: #999;
+    color: black;
     height: 150px; /* add a height for scrollbar*/
     overflow-y: auto;
     padding-right: 0.5rem;
@@ -124,19 +125,21 @@
   }
   
   
-  .resultsRight {
-    flex: 1;
-    background-color: #fafafa;
-    border-radius: 0.5rem;
-    padding: 1rem;
-    min-height: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #999;
-    font-style: italic;
-    text-align: center;
-  }
+.resultsRight {
+  flex: 1;
+  background-color: #fafafa;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  min-height: 150px;
+  display: flex;
+  align-items: flex-start; /* changed from center */
+  justify-content: center;
+  color: black;
+  font-style: italic;
+  text-align: center;
+  overflow-y: auto; /* just in case */
+}
+
   
   .suggestionItem {
     padding: 0.5rem 0.75rem;
@@ -153,6 +156,64 @@
   .placeholderTopResult {
     font-size: 0.95rem;
   }
+
+.resultCard {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  width: 100%;
+  max-width: 300px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 300px;
+}
+
+
+.cardTitle {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.cardPrice {
+  font-size: 1.1rem;
+  color: #4caf50;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.cardDesc {
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.cardMeta {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0.75rem;
+}
+
+.viewButton {
+  padding: 0.5rem 1rem;
+  border: 1px solid black;
+  border-radius: 4px;
+  color: black;
+  font-weight: bold;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.viewButton:hover {
+  background-color: black;
+  color: white;
+}
+
   
 @media (max-width: 768px) {
     .searchBox {
