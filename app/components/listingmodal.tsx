@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import styles from "./listingmodal.module.css";
 
 interface ListingModalProps {
@@ -18,6 +19,7 @@ interface ListingModalProps {
 
 export default function ListingModal({ listing, onClose }: ListingModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -37,6 +39,11 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
       document.removeEventListener("keydown", handleEscape);
     };
   }, [onClose]);
+
+  const handleViewListing = () => {
+    onClose(); // close the modal first
+    router.push(`/listing/${listing.id}`);
+  };
 
   return (
     <div className={styles.overlay}>
@@ -61,6 +68,11 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
             </p>
           )}
         </div>
+
+        {/* 🚀 View Full Listing Button */}
+        <button className={styles.viewButton} onClick={handleViewListing}>
+          View Full Listing
+        </button>
       </div>
     </div>
   );
