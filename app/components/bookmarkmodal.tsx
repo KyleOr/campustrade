@@ -119,6 +119,7 @@ export default function BookmarkModal({ onClose }: BookmarkModalProps) {
                 >
                   <Trash size={18} />
                 </button>
+
                 <div className={styles.bookmarkContent}>
                   <div>
                     <strong>{bookmark.title}</strong>
@@ -126,6 +127,15 @@ export default function BookmarkModal({ onClose }: BookmarkModalProps) {
                   </div>
                   <small>Saved on {bookmark.bookmarkedAt}</small>
                 </div>
+
+                <a
+                  href={`/listing/${bookmark.id}`}
+                  className={styles.seeListingLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  See Listing
+                </a>
               </div>
             ))}
           </div>

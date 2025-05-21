@@ -69,6 +69,17 @@
   justify-content: space-between;
 }
 
+.seeListingLink {
+  color: black;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.seeListingLink:hover {
+  text-decoration: underline;
+}
+
+
 
 /* Animations */
 @keyframes fadeIn {
