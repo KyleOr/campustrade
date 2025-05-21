@@ -105,3 +105,21 @@
   color: #777;
 }
 
+@media (max-width: 1000px) {
+  .page {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+    padding: 1rem;
+    position: relative; /* ensures stacking without overlay */
+    z-index: 1;
+  }
+
+  .main {
+    padding: 1rem;
+  }
+}
