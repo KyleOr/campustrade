@@ -1,11 +1,7 @@
-"use client";
-
 import { db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { notFound, useRouter } from "next/navigation";
-import styles from "./listingpage.module.css";
-import TopNavbar from "@/app/topnavbar/topnavbar";
-import { useEffect, useState } from "react";
+import { notFound } from "next/navigation";
+import ListingDetails from "./listingdetails";
 
 interface ListingPageProps {
   params: {
@@ -13,65 +9,25 @@ interface ListingPageProps {
   };
 }
 
-export default function ListingPage({ params }: ListingPageProps) {
-  const router = useRouter();
-  const [data, setData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+export default async function ListingPage({ params }: ListingPageProps) {
+  const docRef = doc(db, "listings", params.id);
+  const snapshot = await getDoc(docRef);
 
-  useEffect(() => {
-    const fetchListing = async () => {
-      const listingRef = doc(db, "listings", params.id);
-      const snapshot = await getDoc(listingRef);
+  if (!snapshot.exists()) notFound();
 
-      if (!snapshot.exists()) {
-        notFound();
-        return;
-      }
+  const data = snapshot.data();
 
-      setData(snapshot.data());
-      setLoading(false);
-    };
-
-    fetchListing();
-  }, [params.id]);
-
-  if (loading || !data) {
-    return <div className={styles.page}>Loading...</div>;
-  }
+  // Convert Firestore timestamp to string to safely pass to client
+  const createdAt = data.createdAt?.toDate().toISOString();
 
   return (
-    <div className={styles.page}>
-      <TopNavbar />
-      <div className={styles.container}>
-        <button className={styles.backButton} onClick={() => router.back()}>
-          ← Back
-        </button>
-
-        <h1 className={styles.title}>{data.title}</h1>
-        <p className={styles.price}>${data.price}</p>
-        <p className={styles.category}>Category: {data.category}</p>
-
-        <p className={styles.description}>{data.description}</p>
-
-        <div className={styles.meta}>
-          <p>Posted by: {data.username}</p>
-          {data.createdAt?.toDate && (
-            <p>
-              Posted on:{" "}
-              {data.createdAt.toDate().toLocaleDateString(undefined, {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </p>
-          )}
-        </div>
-
-        <div className={styles.actions}>
-          <button className={styles.button}>Add to Bookmark</button>
-          <button className={styles.buttonSecondary}>Message Seller</button>
-        </div>
-      </div>
-    </div>
+    <ListingDetails
+      title={data.title}
+      price={data.price}
+      category={data.category}
+      description={data.description}
+      username={data.username}
+      createdAt={createdAt}
+    />
   );
 }

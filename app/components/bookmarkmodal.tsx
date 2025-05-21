@@ -12,6 +12,7 @@ import { auth, db } from "@/lib/firebase";
 import styles from "./bookmarkmodal.module.css";
 import { Trash } from "lucide-react";
 import { deleteDoc, doc } from "firebase/firestore";
+import Link from "next/link";
 
 interface Bookmark {
   id: string;
@@ -128,14 +129,13 @@ export default function BookmarkModal({ onClose }: BookmarkModalProps) {
                   <small>Saved on {bookmark.bookmarkedAt}</small>
                 </div>
 
-                <a
+                <Link
                   href={`/listing/${bookmark.id}`}
                   className={styles.seeListingLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  onClick={onClose}
                 >
                   See Listing
-                </a>
+                </Link>
               </div>
             ))}
           </div>
