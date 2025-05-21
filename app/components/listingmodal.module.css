@@ -79,6 +79,27 @@
   color: white;
 }
 
+.bookmarkButton {
+  padding: 0.5rem 0.5rem;
+  border: 1px solid black;
+  border-radius: 4px;
+  color: black;
+  font-weight: bold;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.bookmarkButton:hover {
+  background-color: black;
+  color: white;
+}
+
+
 
 
 /* Animations */

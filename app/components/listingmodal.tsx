@@ -2,6 +2,7 @@
 import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./listingmodal.module.css";
+import { Bookmark } from "lucide-react";
 
 interface ListingModalProps {
   listing: {
@@ -71,6 +72,14 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
 
         <button className={styles.viewButton} onClick={handleViewListing}>
           View Full Listing
+        </button>
+
+        <button
+          className={styles.bookmarkButton}
+          onClick={() => console.log("Bookmark clicked!")}
+        >
+          <Bookmark size={16} style={{ marginRight: "8px" }} />
+          Add to Bookmarks
         </button>
       </div>
     </div>
