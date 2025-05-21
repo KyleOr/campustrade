@@ -5,6 +5,7 @@ import styles from "./searchcomponent.module.css";
 import { db } from "@/lib/firebase";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface Props {
   onClose: () => void;
@@ -82,6 +83,19 @@ export default function SearchComponent({ onClose }: Props) {
     }
   }, [searchTerm, listings]);
 
+  const router = useRouter();
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      if (searchTerm.trim()) {
+        router.push(
+          `/marketplace?search=${encodeURIComponent(searchTerm.trim())}`
+        );
+        onClose(); // optional: close the search overlay
+      }
+    }
+  };
+
   return (
     <div
       className={`${styles.overlay} ${isClosing ? styles.fadeOut : ""} ${
@@ -97,6 +111,7 @@ export default function SearchComponent({ onClose }: Props) {
             className={styles.searchInput}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
           <SlidersHorizontal size={20} className={styles.iconButton} />
         </div>
@@ -113,9 +128,13 @@ export default function SearchComponent({ onClose }: Props) {
                   </div>
                 ) : (
                   filtered.map((item) => (
-                    <div key={item.id} className={styles.suggestionItem}>
+                    <Link
+                      href={`/listing/${item.id}`}
+                      key={item.id}
+                      className={styles.suggestionItem}
+                    >
                       {item.title} — ${item.price}
-                    </div>
+                    </Link>
                   ))
                 )}
               </div>

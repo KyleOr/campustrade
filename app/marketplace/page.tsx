@@ -5,6 +5,7 @@ import { db } from "@/lib/firebase";
 import styles from "./marketplacepage.module.css";
 import ListingModal from "../components/listingmodal";
 import TopNavbar from "@/app/topnavbar/topnavbar";
+import { useSearchParams } from "next/navigation";
 
 export default function MarketplacePage() {
   const [listings, setListings] = useState<any[]>([]);
@@ -12,10 +13,17 @@ export default function MarketplacePage() {
   const [loading, setLoading] = useState(true);
   const [selectedListing, setSelectedListing] = useState<any | null>(null);
 
-  const [searchQuery, setSearchQuery] = useState("");
+  const searchParams = useSearchParams();
+  const initialSearch = searchParams.get("search") || "";
+  const [searchQuery, setSearchQuery] = useState(initialSearch);
   const [categoryFilter, setCategoryFilter] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
+
+  useEffect(() => {
+    const search = searchParams.get("search") || "";
+    setSearchQuery(search);
+  }, [searchParams]);
 
   useEffect(() => {
     const fetchListings = async () => {
