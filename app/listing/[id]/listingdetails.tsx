@@ -4,15 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { auth, db } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import {
-  doc,
-  getDoc,
-  setDoc,
-  collection,
-  query,
-  where,
-  getDocs,
-} from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import styles from "./listingpage.module.css";
 import TopNavbar from "@/app/topnavbar/topnavbar";
 

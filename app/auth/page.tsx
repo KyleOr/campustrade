@@ -26,11 +26,7 @@ export default function AuthPage() {
   const handleSubmit = async () => {
     try {
       if (isLogin) {
-        const userCredential = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
+        await signInWithEmailAndPassword(auth, email, password);
         const username = email.split("@")[0];
         router.push(`/${username}`);
       } else {
@@ -50,8 +46,12 @@ export default function AuthPage() {
         const username = email.split("@")[0];
         router.push(`/${username}`);
       }
-    } catch (err: any) {
-      alert(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        alert(err.message);
+      } else {
+        alert("An unknown error occurred.");
+      }
     }
   };
 
@@ -71,8 +71,12 @@ export default function AuthPage() {
 
       const username = (user.email || "").split("@")[0];
       router.push(`/${username}`);
-    } catch (err: any) {
-      alert(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        alert(err.message);
+      } else {
+        alert("An unknown error occurred.");
+      }
     }
   };
 

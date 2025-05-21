@@ -4,13 +4,14 @@ import styles from "./postlistingcomponent.module.css";
 import { db, auth } from "@/lib/firebase";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
+import type { User } from "firebase/auth";
 
 export default function PostListingComponent() {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -88,14 +89,18 @@ export default function PostListingComponent() {
         category: category === "custom" ? customCategory : category,
         createdAt: serverTimestamp(),
         userId: currentUser.uid,
-        userEmail: currentUser.email,
-        username: currentUser.email.split("@")[0],
+        userEmail: currentUser.email ?? "unknown@email.com",
+        username: (currentUser.email ?? "unknown").split("@")[0],
       });
 
       alert("Listing posted!");
       triggerClose();
-    } catch (err: any) {
-      alert("Error posting listing: " + err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        alert("Error posting listing: " + err.message);
+      } else {
+        alert("An unknown error occurred while posting the listing.");
+      }
     }
   };
 

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import styles from "./listingmodal.module.css";
 import { Bookmark } from "lucide-react";
 import { auth, db } from "@/lib/firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, Timestamp } from "firebase/firestore";
 
 interface ListingModalProps {
   listing: {
@@ -15,7 +15,7 @@ interface ListingModalProps {
     category: string;
     userEmail?: string;
     username?: string;
-    createdAt?: any;
+    createdAt?: Timestamp;
   };
   onClose: () => void;
 }

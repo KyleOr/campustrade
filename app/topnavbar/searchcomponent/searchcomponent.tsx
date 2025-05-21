@@ -11,6 +11,17 @@ interface Props {
   onClose: () => void;
 }
 
+type Listing = {
+  id: string;
+  title: string;
+  price: number;
+  category: string;
+  description: string;
+  username?: string;
+  createdAt?: { toDate: () => Date };
+  // Add other fields as needed
+};
+
 export default function SearchComponent({ onClose }: Props) {
   const boxRef = useRef<HTMLDivElement>(null);
   const [isClosing, setIsClosing] = useState(false);
@@ -43,8 +54,8 @@ export default function SearchComponent({ onClose }: Props) {
     };
   }, [triggerClose]);
 
-  const [listings, setListings] = useState<any[]>([]);
-  const [filtered, setFiltered] = useState<any[]>([]);
+  const [listings, setListings] = useState<Listing[]>([]);
+  const [filtered, setFiltered] = useState<Listing[]>([]);
 
   useEffect(() => {
     const fetchListings = async () => {
@@ -54,10 +65,18 @@ export default function SearchComponent({ onClose }: Props) {
           orderBy("createdAt", "desc")
         );
         const snapshot = await getDocs(q);
-        const data = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+        const data: Listing[] = snapshot.docs.map((doc) => {
+          const d = doc.data();
+          return {
+            id: doc.id,
+            title: d.title ?? "",
+            price: d.price ?? 0,
+            category: d.category ?? "",
+            description: d.description ?? "",
+            username: d.username ?? "",
+            createdAt: d.createdAt, // or add a cast if needed
+          };
+        });
         setListings(data);
       } catch (err) {
         console.error("Error fetching listings:", err);

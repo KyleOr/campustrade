@@ -5,7 +5,7 @@ import Link from "next/link";
 import SearchComponent from "./searchcomponent/searchcomponent";
 import { auth } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, SVGMotionProps } from "framer-motion";
 import { useMediaQuery } from "react-responsive";
 import BookmarkModal from "../components/bookmarkmodal";
 
@@ -86,7 +86,7 @@ export default function TopNavbar() {
     },
   };
 
-  const Path = (props: any) => (
+  const Path = (props: SVGMotionProps<SVGPathElement>) => (
     <motion.path
       fill="transparent"
       strokeWidth="3"

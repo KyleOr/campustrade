@@ -14,14 +14,26 @@ import TopNavbar from "../topnavbar/topnavbar";
 import PostListingcomponent from "./accountcomponents/postlistingcomponent";
 import ListingModal from "../components/listingmodal";
 import styles from "./accountpage.module.css";
+import type { User } from "firebase/auth";
+
+type Listing = {
+  id: string;
+  title: string;
+  price: number;
+  category: string;
+  description: string;
+  username: string;
+  createdAt?: Timestamp;
+  // Add other fields as needed
+};
 
 export default function AccountPage() {
   const router = useRouter();
   const params = useParams();
   const [loading, setLoading] = useState(true);
-  const [currentUser, setCurrentUser] = useState<any>(null);
-  const [listings, setListings] = useState<any[]>([]);
-  const [selectedListing, setSelectedListing] = useState<any>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [listings, setListings] = useState<Listing[]>([]);
+  const [selectedListing, setSelectedListing] = useState<Listing | null>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -50,10 +62,18 @@ export default function AccountPage() {
           where("username", "==", params.account)
         );
         const snapshot = await getDocs(q);
-        const data = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+        const data: Listing[] = snapshot.docs.map((doc) => {
+          const d = doc.data();
+          return {
+            id: doc.id,
+            title: d.title ?? "",
+            price: d.price ?? 0,
+            category: d.category ?? "",
+            description: d.description ?? "",
+            username: d.username ?? "",
+            createdAt: d.createdAt,
+          };
+        });
         setListings(data);
       } catch (err) {
         console.error("Error fetching listings:", err);
