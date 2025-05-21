@@ -22,7 +22,9 @@ export default function MarketplacePage() {
 
   useEffect(() => {
     const search = searchParams.get("search") || "";
+    const category = searchParams.get("category") || "";
     setSearchQuery(search);
+    setCategoryFilter(category);
   }, [searchParams]);
 
   useEffect(() => {
@@ -101,6 +103,8 @@ export default function MarketplacePage() {
             <option value="furniture">Furniture</option>
             <option value="bikes">Bikes</option>
             <option value="tutoring">Tutoring</option>
+            <option value="clothes">Clothes</option>
+            <option value="technology">Technology</option>
             <option value="custom">Other (enter manually)</option>
           </datalist>
 

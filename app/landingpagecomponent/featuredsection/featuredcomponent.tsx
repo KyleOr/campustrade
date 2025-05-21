@@ -1,20 +1,32 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import styles from "./featuredcomponent.module.css";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
 export default function FeaturedComponent() {
+  const router = useRouter();
+
   const categories = [
     { label: "Clothes", image: "/clothes-image.jpg" },
     { label: "Technology", image: "/technology-image.jpg" },
     { label: "Furniture", image: "/furniture-image.jpg" },
   ];
 
+  const handleBuyNow = () => {
+    router.push("/marketplace");
+  };
+
+  const handleCategoryClick = (label: string) => {
+    router.push(
+      `/marketplace?category=${encodeURIComponent(label.toLowerCase())}`
+    );
+  };
+
   return (
     <section className={styles.featured}>
       <div className={styles.banner}>
-        {/* Background image using next/image */}
         <Image
           src="/featuredsectionimage.jpg"
           alt="Featured background"
@@ -22,13 +34,13 @@ export default function FeaturedComponent() {
           className={styles.bannerImage}
           priority
         />
+
         <div className={styles.labelContainer}>
           <h2 className={styles.trendingLabel}>Trending Categories</h2>
         </div>
 
-        {/* CTA Button */}
         <div className={styles.buyNowWrapper}>
-          <button className={styles.buyNowButton}>
+          <button className={styles.buyNowButton} onClick={handleBuyNow}>
             Buy Now
             <span className={styles.arrowIcon}>
               <ArrowRight size={16} />
@@ -36,12 +48,12 @@ export default function FeaturedComponent() {
           </button>
         </div>
 
-        {/* Category Buttons */}
         <div className={styles.buttonsContainer}>
           {categories.map((cat, index) => (
             <motion.div
               className={styles.button}
               key={index}
+              onClick={() => handleCategoryClick(cat.label)}
               whileHover={{
                 scale: 1.1,
                 rotate: 5,

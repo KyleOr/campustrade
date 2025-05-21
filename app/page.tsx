@@ -9,14 +9,16 @@ import FooterComponent from "./landingpagecomponent/footersection/footercomponen
 
 export default function StorePage() {
   return (
-    <div className={styles.container}>
+    <>
       <TopNavbar />
-      <HeroComponent />
-      <FeaturedComponent />
-      <GuideComponent />
-      <TrustAndServiceComponent />
-      <CallToActionComponent />
-      <FooterComponent />
-    </div>
+      <div className={styles.container}>
+        <HeroComponent />
+        <FeaturedComponent />
+        <GuideComponent />
+        <TrustAndServiceComponent />
+        <CallToActionComponent />
+        <FooterComponent />
+      </div>
+    </>
   );
 }
