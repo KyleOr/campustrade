@@ -12,7 +12,7 @@ _Deployed via Vercel for quick public access._
 - 🛒 List and browse used items
 - 🔍 Search and filter functionality
 - 📦 Item detail views
-- 👤 User authentication (if implemented)
+- 👤 User authentication
 - ☁️ Containerized with Docker
 - ⚙️ Deployed using Kubernetes (GKE)
 - 🌐 Publicly accessible via LoadBalancer service
@@ -24,8 +24,8 @@ _Deployed via Vercel for quick public access._
 | Layer           | Technology                        |
 |----------------|------------------------------------|
 | Frontend       | Next.js                            |
-| Backend        | Node.js                            |
-| Database       | Firebase                           |
+| Backend        | Firebase                           |
+| Database       | Firestore database                 |
 | Containerization| Docker                            |
 | Orchestration  | Kubernetes (Google Kubernetes Engine) |
 | Image Registry | Docker Hub                         |
