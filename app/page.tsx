@@ -6,7 +6,7 @@ import styles from "./storepage.module.css";
 
 import TopNavbar from "./topnavbar/topnavbar";
 import HeroComponent from "./landingpagecomponent/herosection/herocomponent";
-import FeaturedComponent from "./landingpagecomponent/featuredsection/featuredcomponent";
+import FeaturedCarousel from "./landingpagecomponent/featuredsection/featuredcarouselcomponent";
 import GuideComponent from "./landingpagecomponent/guidesection/guidecomponent";
 import TrustAndServiceComponent from "./landingpagecomponent/trustandservicesection/trustandservicecomponent";
 import CallToActionComponent from "./landingpagecomponent/calltoactionsection/calltoactioncomponent";
@@ -30,7 +30,7 @@ export default function StorePage() {
       <TopNavbar />
       <div className={styles.container}>
         {user ? <WelcomeBackComponent user={user} /> : <HeroComponent />}
-        <FeaturedComponent />
+        <FeaturedCarousel />
         <GuideComponent />
         <TrustAndServiceComponent />
         <CallToActionComponent />
