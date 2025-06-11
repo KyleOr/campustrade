@@ -181,7 +181,8 @@
   
   
   /* Responsive adjustments */
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
+
     .buttonsContainer {
       bottom: 5px;
       right: 10px;
@@ -232,7 +233,7 @@
 
       .labelContainer {
         position: absolute;
-        top: 80px;
+        top: 200px;
         left: 20px;
       }
       
@@ -241,7 +242,7 @@
         padding: 0.5rem 0.5rem;
         border-radius: 8px;
         font-size: 2rem;
-        font-weight: 500;
+        font-weight: normal;
         letter-spacing: -1px;
       }
   }
@@ -281,7 +282,7 @@
 
       .labelContainer {
         position: absolute;
-        top: 93px;
+        top: 180px; /* Increased from 93px to move even lower */
         left: 2px;
       }
       
@@ -290,9 +291,8 @@
         padding: 0.5rem 0.5rem;
         border-radius: 8px;
         font-size: 1.4rem;
-        font-weight: 500;
+        font-weight: normal;
         letter-spacing: -1px;
       }
     
   }
-  
