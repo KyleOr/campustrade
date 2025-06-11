@@ -1,56 +1,46 @@
 "use client";
 import styles from "./featuredevents.module.css";
-import { motion } from "framer-motion";
+import Image from "next/image";
+import { Calendar, MapPin, ArrowRight } from "lucide-react";
 
-interface FeaturedEventsProps {
-  isActive?: boolean;
-}
-
-export default function FeaturedEvents({
-  isActive = true,
-}: FeaturedEventsProps) {
+export default function FeaturedEvents() {
   return (
-    <motion.section
-      className={styles.eventsContainer}
-      initial={!isActive ? { opacity: 0 } : undefined}
-      animate={isActive ? { opacity: 1 } : { opacity: 0.5 }}
-      transition={{ duration: 0.3 }}
-    >
-      <div className={styles.eventsContent}>
-        <h2 className={styles.eventsTitle}>Upcoming Campus Events</h2>
-
-        <div className={styles.eventsList}>
-          <motion.div
-            className={styles.eventCard}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            <h3>Spring Flea Market</h3>
-            <p>April 15, 10AM - 4PM</p>
-            <p>Main Quadrangle</p>
-          </motion.div>
-
-          <motion.div
-            className={styles.eventCard}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            <h3>Tech Swap Meet</h3>
-            <p>April 22, 12PM - 6PM</p>
-            <p>Engineering Building</p>
-          </motion.div>
-
-          <motion.div
-            className={styles.eventCard}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            <h3>Book Exchange Day</h3>
-            <p>April 29, 9AM - 3PM</p>
-            <p>Library Courtyard</p>
-          </motion.div>
+    <section className={styles.featured}>
+      <div className={styles.banner}>
+        <Image
+          src="/featuredevent.jpg"
+          alt="Coffee training event background"
+          fill
+          className={styles.bannerImage}
+          priority
+        />
+        <div className={styles.content}>
+          <h2 className={styles.title}>Coffee Training Workshop</h2>
+          <div className={styles.details}>
+            Master the art of coffee making!
+            <br />
+            Join our hands-on barista training and learn latte art, espresso
+            basics, and more.
+            <br />
+            <span className={styles.eventDetail}>
+              <Calendar size={18} style={{ marginRight: "8px" }} />
+              July 20, 2–5pm
+            </span>
+            <span className={styles.eventDetail}>
+              <MapPin size={18} style={{ marginRight: "8px" }} />
+              Campus Café, Building B
+            </span>
+          </div>
+          <div className={styles.buyNowWrapper}>
+            <button className={styles.buyNowButton}>
+              Join Now
+              <span className={styles.arrowIcon}>
+                <ArrowRight size={16} />
+              </span>
+            </button>
+          </div>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }
