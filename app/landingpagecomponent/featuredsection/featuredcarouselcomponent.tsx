@@ -28,7 +28,7 @@ export default function FeaturedCarousel() {
 
   // Auto-rotate every 8 seconds
   useEffect(() => {
-    const interval = setInterval(nextSlide, 8000);
+    const interval = setInterval(nextSlide, 10000);
     return () => clearInterval(interval);
   }, []);
 

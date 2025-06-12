@@ -21,7 +21,6 @@
   display: flex;
   gap: 8px;
 }
-
 .navButton {
   background: none;
   border: none;
@@ -32,9 +31,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: black;
+  background-color: rgba(0,0,0,0.1); /* semi-transparent black */
   border-radius: 25px;
   position: relative;
+  backdrop-filter: blur(6px); /* adds blur effect */
+  -webkit-backdrop-filter: blur(6px); /* for Safari */
 }
 
 .navButton:hover {

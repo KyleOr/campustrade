@@ -1,0 +1,50 @@
+.card {
+  background-color: #fff;
+  border: none;
+  color: black;
+  border-radius: 6px;
+  padding: 0;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 260px;
+  overflow: hidden;
+}
+
+.card:hover {
+  box-shadow: 0 0 16px 2px rgba(80, 80, 120, 0.18), 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 50%;
+  min-height: 140px;
+  background-color: #e0e0e0;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  margin-bottom: 1rem;
+  display: block;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.cardTitle {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  padding: 2px;
+}
+
+.cardPrice {
+  color: #333;
+  font-weight: normal;
+  padding: 2px;
+}
+
+.cardMeta {
+  font-size: 0.85rem;
+  color: #777;
+  padding: 2px;
+}
