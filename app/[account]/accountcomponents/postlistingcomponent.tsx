@@ -19,6 +19,11 @@ export default function PostListingComponent() {
   const [category, setCategory] = useState("general");
   const [customCategory, setCustomCategory] = useState("");
 
+  // New fields
+  const [condition, setCondition] = useState("new");
+  const [location, setLocation] = useState("");
+  const [tags, setTags] = useState("");
+
   const boxRef = useRef<HTMLDivElement>(null);
 
   const triggerClose = useCallback(() => {
@@ -37,6 +42,9 @@ export default function PostListingComponent() {
     setPrice("");
     setCategory("general");
     setCustomCategory("");
+    setCondition("new");
+    setLocation("");
+    setTags("");
   };
 
   useEffect(() => {
@@ -77,7 +85,15 @@ export default function PostListingComponent() {
   }, [isVisible, triggerClose]);
 
   const handleSubmit = async () => {
-    if (!title || !description || !price || !category || !currentUser) {
+    if (
+      !title ||
+      !description ||
+      !price ||
+      !category ||
+      !currentUser ||
+      !condition ||
+      !location
+    ) {
       return alert("Please fill out all fields.");
     }
 
@@ -87,6 +103,12 @@ export default function PostListingComponent() {
         description,
         price: parseFloat(price),
         category: category === "custom" ? customCategory : category,
+        condition,
+        location,
+        tags: tags
+          .split(",")
+          .map((t) => t.trim())
+          .filter(Boolean),
         createdAt: serverTimestamp(),
         userId: currentUser.uid,
         userEmail: currentUser.email ?? "unknown@email.com",
@@ -163,6 +185,34 @@ export default function PostListingComponent() {
                 className={styles.input}
               />
             )}
+
+            {/* New fields */}
+            <select
+              value={condition}
+              onChange={(e) => setCondition(e.target.value)}
+              className={styles.select}
+            >
+              <option value="new">Condition: New</option>
+              <option value="like new">Condition: Like New</option>
+              <option value="used">Condition: Used</option>
+              <option value="for parts">Condition: For Parts</option>
+            </select>
+
+            <input
+              type="text"
+              placeholder="Location (e.g. Burwood, Waurn Ponds)"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              className={styles.input}
+            />
+
+            <input
+              type="text"
+              placeholder="Tags (comma separated, e.g. negotiable, delivery)"
+              value={tags}
+              onChange={(e) => setTags(e.target.value)}
+              className={styles.input}
+            />
 
             <div className={styles.buttonGroup}>
               <button className={styles.submitButton} onClick={handleSubmit}>
