@@ -32,7 +32,8 @@
 
 .cardTitle {
   font-size: 1.1rem;
-  font-weight: bold;
+  font-weight: thin;
+  letter-spacing: -1px;
   margin-bottom: 0.5rem;
   padding: 2px;
 }
