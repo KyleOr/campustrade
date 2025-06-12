@@ -12,6 +12,7 @@ import styles from "./marketplacepage.module.css";
 import ListingModal from "../components/listingmodal";
 import { useSearchParams } from "next/navigation";
 import MarketCard from "./marketcard";
+import MarketplaceFilter from "./marketplacefilter";
 
 type Listing = {
   id: string;
@@ -100,61 +101,16 @@ export default function MarketplaceClient() {
   return (
     <>
       {/* SIDEBAR FILTERS */}
-      <div className={styles.sidebar}>
-        <h2 className={styles.sidebarTitle}>Filter Listings</h2>
-
-        <input
-          type="text"
-          placeholder="Search keywords..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className={styles.input}
-        />
-
-        <input
-          type="text"
-          list="category-options"
-          placeholder="Filter by category"
-          value={categoryFilter}
-          onChange={(e) => setCategoryFilter(e.target.value)}
-          className={styles.input}
-        />
-
-        <datalist id="category-options">
-          <option value="books">Books & Notes</option>
-          <option value="furniture">Furniture</option>
-          <option value="bikes">Bikes</option>
-          <option value="tutoring">Tutoring</option>
-          <option value="clothes">Clothes</option>
-          <option value="technology">Technology</option>
-          <option value="custom">Other (enter manually)</option>
-        </datalist>
-
-        <input
-          type="text"
-          placeholder="Category keywords..."
-          value={categoryFilter}
-          onChange={(e) => setCategoryFilter(e.target.value)}
-          className={styles.input}
-        />
-
-        <div className={styles.priceRange}>
-          <input
-            type="number"
-            placeholder="Min price"
-            value={minPrice}
-            onChange={(e) => setMinPrice(e.target.value)}
-            className={styles.input}
-          />
-          <input
-            type="number"
-            placeholder="Max price"
-            value={maxPrice}
-            onChange={(e) => setMaxPrice(e.target.value)}
-            className={styles.input}
-          />
-        </div>
-      </div>
+      <MarketplaceFilter
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        categoryFilter={categoryFilter}
+        setCategoryFilter={setCategoryFilter}
+        minPrice={minPrice}
+        setMinPrice={setMinPrice}
+        maxPrice={maxPrice}
+        setMaxPrice={setMaxPrice}
+      />
 
       {/* MAIN CONTENT */}
       <div className={styles.main}>

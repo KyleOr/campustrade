@@ -1,0 +1,54 @@
+
+.sidebar {
+  width: 250px;
+  padding: 1rem;
+  border-right: 1px solid #ddd;
+  background-color: #f9f9f9;
+  color: black;
+}
+
+.sidebarTitle {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: black;
+}
+
+.filterNote {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.priceRange {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+
+@media (max-width: 1000px) {
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+    padding: 1rem;
+    position: relative;
+    z-index: 1;
+  }
+}

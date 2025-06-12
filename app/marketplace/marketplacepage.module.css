@@ -5,47 +5,6 @@
   font-family: sans-serif;
 }
 
-.sidebar {
-  width: 250px;
-  padding: 1rem;
-  border-right: 1px solid #ddd;
-  background-color: #f9f9f9;
-  color: black;
-}
-
-.sidebarTitle {
-  font-size: 1.25rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  color: black;
-}
-
-.filterNote {
-  font-size: 0.875rem;
-  color: #666;
-}
-
-.input {
-  width: 100%;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.select {
-  width: 100%;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.priceRange {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
 
 
 
@@ -69,34 +28,36 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(6, minmax(160px, 1fr));
   gap: 0.5rem;
   width: 100%;
 }
 
+@media (max-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(160px, 1fr)); /* 4 columns for medium screens */
+  }
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns for smaller screens */
+  }
+}
+
+@media (max-width: 700px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr); /* Always 2 columns on small screens */
+    gap: 0.4rem;
+  }
+}
 
 @media (max-width: 1000px) {
   .page {
     flex-direction: column;
   }
 
-  .sidebar {
-    width: 100%;
-    border-right: none;
-    border-bottom: 1px solid #ddd;
-    padding: 1rem;
-    position: relative;
-    z-index: 1;
-  }
-
   .main {
     padding: 1rem;
-  }
-}
-
-@media (max-width: 700px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.4rem;
   }
 }
