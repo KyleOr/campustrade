@@ -21,8 +21,10 @@ export default function PostListingComponent() {
 
   // New fields
   const [condition, setCondition] = useState("new");
-  const [location, setLocation] = useState("");
-  const [tags, setTags] = useState("");
+  const [location, setLocation] = useState("waurn ponds");
+  const [customLocation, setCustomLocation] = useState("");
+
+  const [selectedImages, setSelectedImages] = useState<File[]>([]);
 
   const boxRef = useRef<HTMLDivElement>(null);
 
@@ -43,8 +45,9 @@ export default function PostListingComponent() {
     setCategory("general");
     setCustomCategory("");
     setCondition("new");
-    setLocation("");
-    setTags("");
+    setLocation("waurn ponds");
+    setCustomLocation("");
+    setSelectedImages([]);
   };
 
   useEffect(() => {
@@ -92,7 +95,8 @@ export default function PostListingComponent() {
       !category ||
       !currentUser ||
       !condition ||
-      !location
+      !location ||
+      (location === "other" && !customLocation)
     ) {
       return alert("Please fill out all fields.");
     }
@@ -104,11 +108,7 @@ export default function PostListingComponent() {
         price: parseFloat(price),
         category: category === "custom" ? customCategory : category,
         condition,
-        location,
-        tags: tags
-          .split(",")
-          .map((t) => t.trim())
-          .filter(Boolean),
+        location: location === "other" ? customLocation : location,
         createdAt: serverTimestamp(),
         userId: currentUser.uid,
         userEmail: currentUser.email ?? "unknown@email.com",
@@ -123,6 +123,13 @@ export default function PostListingComponent() {
       } else {
         alert("An unknown error occurred while posting the listing.");
       }
+    }
+  };
+
+  // Handler for image selection (does not upload)
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setSelectedImages(Array.from(e.target.files));
     }
   };
 
@@ -142,6 +149,35 @@ export default function PostListingComponent() {
         >
           <div className={styles.modalBox} ref={boxRef}>
             <h2>Create a Listing</h2>
+
+            {/* Image upload placeholder */}
+            <div className={styles.imageUploadPlaceholder}>
+              <label className={styles.imageUploadLabel}>
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  style={{ display: "none" }}
+                  onChange={handleImageChange}
+                  disabled
+                />
+                <span>
+                  {selectedImages.length > 0
+                    ? `${selectedImages.length} image(s) selected`
+                    : "Upload Images (placeholder, not stored)"}
+                </span>
+              </label>
+              <div className={styles.imagePreviewRow}>
+                {selectedImages.map((file, idx) => (
+                  <img
+                    key={idx}
+                    src={URL.createObjectURL(file)}
+                    alt={`preview-${idx}`}
+                    className={styles.imagePreview}
+                  />
+                ))}
+              </div>
+            </div>
 
             <input
               type="text"
@@ -186,7 +222,6 @@ export default function PostListingComponent() {
               />
             )}
 
-            {/* New fields */}
             <select
               value={condition}
               onChange={(e) => setCondition(e.target.value)}
@@ -198,21 +233,27 @@ export default function PostListingComponent() {
               <option value="for parts">Condition: For Parts</option>
             </select>
 
-            <input
-              type="text"
-              placeholder="Location (e.g. Burwood, Waurn Ponds)"
+            {/* Location dropdown */}
+            <select
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              className={styles.input}
-            />
+              className={styles.select}
+            >
+              <option value="waurn ponds">Waurn Ponds</option>
+              <option value="geelong">Geelong</option>
+              <option value="burwood">Burwood</option>
+              <option value="other">Other (enter manually)</option>
+            </select>
 
-            <input
-              type="text"
-              placeholder="Tags (comma separated, e.g. negotiable, delivery)"
-              value={tags}
-              onChange={(e) => setTags(e.target.value)}
-              className={styles.input}
-            />
+            {location === "other" && (
+              <input
+                type="text"
+                placeholder="Enter location"
+                value={customLocation}
+                onChange={(e) => setCustomLocation(e.target.value)}
+                className={styles.input}
+              />
+            )}
 
             <div className={styles.buttonGroup}>
               <button className={styles.submitButton} onClick={handleSubmit}>
