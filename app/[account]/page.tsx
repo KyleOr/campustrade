@@ -15,20 +15,7 @@ import PostListingcomponent from "./accountcomponents/postlistingcomponent";
 import ListingModal from "../components/listingmodal";
 import styles from "./accountpage.module.css";
 import type { User } from "firebase/auth";
-
-type Listing = {
-  id: string;
-  title: string;
-  price: number;
-  category: string;
-  description: string;
-  username: string;
-  createdAt?: Timestamp;
-  location?: string;
-  condition?: string;
-  userId?: string;
-  userEmail?: string;
-};
+import type { listing as Listing } from "@/lib/listing";
 
 export default function AccountPage() {
   const router = useRouter();
@@ -75,10 +62,10 @@ export default function AccountPage() {
             description: d.description ?? "",
             username: d.username ?? "",
             createdAt: d.createdAt,
-            location: d.location ?? "", // <-- add this
-            condition: d.condition ?? "", // <-- add this
-            userId: d.userId ?? "", // optional
-            userEmail: d.userEmail ?? "", // optional
+            location: d.location ?? "",
+            condition: d.condition ?? "",
+            userId: d.userId ?? "",
+            userEmail: d.userEmail ?? "",
           };
         });
         setListings(data);

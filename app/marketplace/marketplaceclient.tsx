@@ -13,26 +13,13 @@ import ListingModal from "../components/listingmodal";
 import { useSearchParams } from "next/navigation";
 import MarketCard from "./marketcard";
 import MarketplaceFilter from "./marketplacefilter";
-
-type Listing = {
-  id: string;
-  title: string;
-  price: number;
-  category: string;
-  description: string;
-  username: string;
-  createdAt?: Timestamp;
-  location?: string;
-  condition?: string;
-  userId?: string;
-  userEmail?: string;
-};
+import type { listing } from "@/lib/listing";
 
 export default function MarketplaceClient() {
-  const [listings, setListings] = useState<Listing[]>([]);
-  const [filteredListings, setFilteredListings] = useState<Listing[]>([]);
+  const [listings, setListings] = useState<listing[]>([]);
+  const [filteredListings, setFilteredListings] = useState<listing[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedListing, setSelectedListing] = useState<Listing | null>(null);
+  const [selectedListing, setSelectedListing] = useState<listing | null>(null);
 
   const searchParams = useSearchParams();
   const initialSearch = searchParams.get("search") || "";
@@ -56,7 +43,7 @@ export default function MarketplaceClient() {
           orderBy("createdAt", "desc")
         );
         const snapshot = await getDocs(q);
-        const data: Listing[] = snapshot.docs.map((doc) => {
+        const data: listing[] = snapshot.docs.map((doc) => {
           const d = doc.data();
           return {
             id: doc.id,
@@ -66,10 +53,10 @@ export default function MarketplaceClient() {
             description: d.description ?? "",
             username: d.username ?? "",
             createdAt: d.createdAt as Timestamp | undefined,
-            location: d.location ?? "", // <-- add this
-            condition: d.condition ?? "", // <-- add this
-            userId: d.userId ?? "", // optional
-            userEmail: d.userEmail ?? "", // optional
+            location: d.location ?? "",
+            condition: d.condition ?? "",
+            userId: d.userId ?? "",
+            userEmail: d.userEmail ?? "",
           };
         });
         setListings(data);
