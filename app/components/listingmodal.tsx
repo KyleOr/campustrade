@@ -13,9 +13,12 @@ interface ListingModalProps {
     description: string;
     price: number;
     category: string;
-    userEmail?: string;
-    username?: string;
+    location: string;
+    userId: string;
+    userEmail: string;
+    username: string;
     createdAt?: Timestamp;
+    condition: string;
   };
   onClose: () => void;
 }
@@ -29,6 +32,7 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
   const [loading, setLoading] = useState(true);
   const [bookmarkStatus, setBookmarkStatus] = useState("Add to Bookmarks");
 
+  // Close modal handlers
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
@@ -84,7 +88,7 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
     }
 
     if (alreadyBookmarked) {
-      alert("You’ve already bookmarked this listing.");
+      alert("You've already bookmarked this listing.");
       return;
     }
 
@@ -106,42 +110,82 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
     }
   };
 
+  // Helper to get days ago
+  const getDaysAgo = () => {
+    if (!listing.createdAt?.toDate) return "";
+    const now = new Date();
+    const created = listing.createdAt.toDate();
+    const diffTime = Math.abs(now.getTime() - created.getTime());
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    if (diffDays === 0) return "today";
+    if (diffDays === 1) return "1 day ago";
+    return `${diffDays} days ago`;
+  };
+
   return (
     <div className={styles.overlay}>
       <div className={styles.modal} ref={modalRef}>
         <button className={styles.closeButton} onClick={onClose}>
           &times;
         </button>
-        <h2 className={styles.title}>{listing.title}</h2>
-        <p className={styles.price}>${listing.price}</p>
-        <p className={styles.category}>Category: {listing.category}</p>
-        <p className={styles.description}>{listing.description}</p>
-        <div className={styles.meta}>
-          <p>Posted by: {listing.username}</p>
-          {listing.createdAt?.toDate && (
-            <p>
-              Date:{" "}
-              {listing.createdAt.toDate().toLocaleDateString(undefined, {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
+        <div className={styles.contentRow}>
+          {/* Left column: images (placeholder for now) */}
+          <div className={styles.leftCol}>
+            <div className={styles.imagePlaceholder}>
+              <span>No images available</span>
+            </div>
+          </div>
+
+          {/* Right column: info */}
+          <div className={styles.rightCol}>
+            <h2 className={styles.title}>{listing.title}</h2>
+            <p className={styles.price}>
+              ${listing.price?.toLocaleString?.() ?? listing.price}
             </p>
-          )}
+            <p className={styles.category}>Category: {listing.category}</p>
+            {listing.condition && (
+              <p className={styles.condition}>
+                Condition:{" "}
+                {listing.condition.charAt(0).toUpperCase() +
+                  listing.condition.slice(1).toLowerCase()}
+              </p>
+            )}
+            <p className={styles.description}>{listing.description}</p>
+            {/* Display all listing info */}
+            <div className={styles.meta}>
+              <p>
+                <strong>Location:</strong> {listing.location ?? "N/A"}
+              </p>
+              <p>
+                <strong>Posted by:</strong> {listing.username || "Unknown user"}
+              </p>
+              {listing.createdAt?.toDate && (
+                <p>
+                  <strong>Date:</strong>{" "}
+                  {listing.createdAt.toDate().toLocaleDateString(undefined, {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}{" "}
+                  ({getDaysAgo()})
+                </p>
+              )}
+            </div>
+            <div className={styles.buttonGroup}>
+              <button className={styles.viewButton} onClick={handleViewListing}>
+                View Full Listing
+              </button>
+              <button
+                className={styles.bookmarkButton}
+                onClick={handleBookmark}
+                disabled={loading || alreadyBookmarked}
+              >
+                <Bookmark size={16} style={{ marginRight: "8px" }} />
+                {userId ? bookmarkStatus : "Sign in to Bookmark"}
+              </button>
+            </div>
+          </div>
         </div>
-
-        <button className={styles.viewButton} onClick={handleViewListing}>
-          View Full Listing
-        </button>
-
-        <button
-          className={styles.bookmarkButton}
-          onClick={handleBookmark}
-          disabled={loading || alreadyBookmarked}
-        >
-          <Bookmark size={16} style={{ marginRight: "8px" }} />
-          {userId ? bookmarkStatus : "Sign in to Bookmark"}
-        </button>
       </div>
     </div>
   );

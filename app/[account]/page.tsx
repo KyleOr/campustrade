@@ -24,7 +24,10 @@ type Listing = {
   description: string;
   username: string;
   createdAt?: Timestamp;
-  // Add other fields as needed
+  location?: string;
+  condition?: string;
+  userId?: string;
+  userEmail?: string;
 };
 
 export default function AccountPage() {
@@ -72,6 +75,10 @@ export default function AccountPage() {
             description: d.description ?? "",
             username: d.username ?? "",
             createdAt: d.createdAt,
+            location: d.location ?? "", // <-- add this
+            condition: d.condition ?? "", // <-- add this
+            userId: d.userId ?? "", // optional
+            userEmail: d.userEmail ?? "", // optional
           };
         });
         setListings(data);

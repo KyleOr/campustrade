@@ -22,7 +22,6 @@ export default async function ListingPage({
 
   const data = snapshot.data();
 
-  // Convert Firestore timestamp to string to safely pass to client
   const createdAt = data.createdAt?.toDate().toISOString();
 
   return (

@@ -22,6 +22,10 @@ type Listing = {
   description: string;
   username: string;
   createdAt?: Timestamp;
+  location?: string;
+  condition?: string;
+  userId?: string;
+  userEmail?: string;
 };
 
 export default function MarketplaceClient() {
@@ -62,6 +66,10 @@ export default function MarketplaceClient() {
             description: d.description ?? "",
             username: d.username ?? "",
             createdAt: d.createdAt as Timestamp | undefined,
+            location: d.location ?? "", // <-- add this
+            condition: d.condition ?? "", // <-- add this
+            userId: d.userId ?? "", // optional
+            userEmail: d.userEmail ?? "", // optional
           };
         });
         setListings(data);
