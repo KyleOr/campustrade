@@ -6,7 +6,7 @@ import {
   GraduationCap,
   Shirt,
   Laptop,
-  MoreHorizontal,
+  Package,
   ChevronRight,
 } from "lucide-react";
 
@@ -17,7 +17,7 @@ const categories = [
   { value: "tutoring", label: "Tutoring", icon: GraduationCap },
   { value: "clothes", label: "Clothes", icon: Shirt },
   { value: "technology", label: "Technology", icon: Laptop },
-  { value: "custom", label: "Other", icon: MoreHorizontal },
+  { value: "miscellaneous", label: "Miscellaneous", icon: Package },
 ];
 
 type MarketplaceFilterProps = {
