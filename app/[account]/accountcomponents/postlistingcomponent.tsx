@@ -5,6 +5,7 @@ import { db, auth } from "@/lib/firebase";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import type { User } from "firebase/auth";
+import Image from "next/image";
 
 export default function PostListingComponent() {
   const [isOpen, setIsOpen] = useState(false);
@@ -169,11 +170,14 @@ export default function PostListingComponent() {
               </label>
               <div className={styles.imagePreviewRow}>
                 {selectedImages.map((file, idx) => (
-                  <img
+                  <Image
                     key={idx}
                     src={URL.createObjectURL(file)}
                     alt={`preview-${idx}`}
+                    width={100}
+                    height={100}
                     className={styles.imagePreview}
+                    style={{ objectFit: "cover" }}
                   />
                 ))}
               </div>
@@ -207,9 +211,10 @@ export default function PostListingComponent() {
               <option value="">Select a category</option>
               <option value="books">Books & Notes</option>
               <option value="furniture">Furniture</option>
-              <option value="bikes">Bikes</option>
+              <option value="vehicle">Vehicles</option>
               <option value="tutoring">Tutoring</option>
               <option value="custom">Other (enter manually)</option>
+              ];
             </select>
 
             {category === "custom" && (

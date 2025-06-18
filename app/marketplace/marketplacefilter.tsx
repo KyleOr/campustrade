@@ -1,4 +1,24 @@
 import styles from "./marketplacefilter.module.css";
+import {
+  Book,
+  Sofa,
+  Car,
+  GraduationCap,
+  Shirt,
+  Laptop,
+  MoreHorizontal,
+  ChevronRight,
+} from "lucide-react";
+
+const categories = [
+  { value: "books", label: "Books & Notes", icon: Book },
+  { value: "furniture", label: "Furniture", icon: Sofa },
+  { value: "vehicle", label: "Vehicles", icon: Car },
+  { value: "tutoring", label: "Tutoring", icon: GraduationCap },
+  { value: "clothes", label: "Clothes", icon: Shirt },
+  { value: "technology", label: "Technology", icon: Laptop },
+  { value: "custom", label: "Other", icon: MoreHorizontal },
+];
 
 type MarketplaceFilterProps = {
   searchQuery: string;
@@ -9,6 +29,8 @@ type MarketplaceFilterProps = {
   setMinPrice: (v: string) => void;
   maxPrice: string;
   setMaxPrice: (v: string) => void;
+  locationFilter: string;
+  setLocationFilter: (v: string) => void;
 };
 
 export default function MarketplaceFilter({
@@ -20,6 +42,8 @@ export default function MarketplaceFilter({
   setMinPrice,
   maxPrice,
   setMaxPrice,
+  locationFilter,
+  setLocationFilter,
 }: MarketplaceFilterProps) {
   return (
     <div className={styles.sidebar}>
@@ -27,36 +51,9 @@ export default function MarketplaceFilter({
 
       <input
         type="text"
-        placeholder="Search keywords..."
+        placeholder="Search Marketplace"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className={styles.input}
-      />
-
-      <input
-        type="text"
-        list="category-options"
-        placeholder="Filter by category"
-        value={categoryFilter}
-        onChange={(e) => setCategoryFilter(e.target.value)}
-        className={styles.input}
-      />
-
-      <datalist id="category-options">
-        <option value="books">Books & Notes</option>
-        <option value="furniture">Furniture</option>
-        <option value="bikes">Bikes</option>
-        <option value="tutoring">Tutoring</option>
-        <option value="clothes">Clothes</option>
-        <option value="technology">Technology</option>
-        <option value="custom">Other (enter manually)</option>
-      </datalist>
-
-      <input
-        type="text"
-        placeholder="Category keywords..."
-        value={categoryFilter}
-        onChange={(e) => setCategoryFilter(e.target.value)}
         className={styles.input}
       />
 
@@ -75,6 +72,55 @@ export default function MarketplaceFilter({
           onChange={(e) => setMaxPrice(e.target.value)}
           className={styles.input}
         />
+      </div>
+
+      <input
+        type="text"
+        placeholder="Filter by location"
+        value={locationFilter}
+        onChange={(e) => setLocationFilter(e.target.value)}
+        className={styles.input}
+      />
+
+      <input
+        type="text"
+        list="category-options"
+        placeholder="Filter by category"
+        value={categoryFilter}
+        onChange={(e) => setCategoryFilter(e.target.value)}
+        className={styles.input}
+      />
+
+      <datalist id="category-options">
+        {categories.map((cat) => (
+          <option key={cat.value} value={cat.value}>
+            {cat.label}
+          </option>
+        ))}
+      </datalist>
+
+      <div className={styles.categoryButtonGroup}>
+        {categories.map((cat) => {
+          const Icon = cat.icon;
+          return (
+            <button
+              key={cat.value}
+              className={`${styles.categoryButton} ${
+                categoryFilter === cat.value ? styles.activeCategory : ""
+              }`}
+              onClick={() => setCategoryFilter(cat.value)}
+              type="button"
+            >
+              <span className={styles.categoryIcon}>
+                <Icon size={20} />
+              </span>
+              <span className={styles.categoryLabel}>{cat.label}</span>
+              <span className={styles.chevronIcon}>
+                <ChevronRight size={18} />
+              </span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );

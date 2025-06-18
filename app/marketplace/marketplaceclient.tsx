@@ -27,6 +27,7 @@ export default function MarketplaceClient() {
   const [categoryFilter, setCategoryFilter] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
+  const [locationFilter, setLocationFilter] = useState("");
 
   useEffect(() => {
     const search = searchParams.get("search") || "";
@@ -87,11 +88,24 @@ export default function MarketplaceClient() {
       const max = maxPrice ? Number(maxPrice) : Infinity;
       const matchesPrice = price >= min && price <= max;
 
-      return matchesSearch && matchesCategory && matchesPrice;
+      const matchesLocation =
+        !locationFilter ||
+        listing.location?.toLowerCase().includes(locationFilter.toLowerCase());
+
+      return (
+        matchesSearch && matchesCategory && matchesPrice && matchesLocation
+      );
     });
 
     setFilteredListings(filtered);
-  }, [searchQuery, categoryFilter, minPrice, maxPrice, listings]);
+  }, [
+    searchQuery,
+    categoryFilter,
+    minPrice,
+    maxPrice,
+    locationFilter,
+    listings,
+  ]);
 
   return (
     <>
@@ -105,6 +119,8 @@ export default function MarketplaceClient() {
         setMinPrice={setMinPrice}
         maxPrice={maxPrice}
         setMaxPrice={setMaxPrice}
+        locationFilter={locationFilter}
+        setLocationFilter={setLocationFilter}
       />
 
       {/* MAIN CONTENT */}

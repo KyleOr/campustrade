@@ -1,8 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import styles from "./listingmodal.module.css";
-import { Bookmark } from "lucide-react";
+import { Bookmark, MessageCircle, Share2 } from "lucide-react";
 import { auth, db } from "@/lib/firebase";
 import { doc, getDoc, setDoc, Timestamp } from "firebase/firestore";
 
@@ -25,12 +24,9 @@ interface ListingModalProps {
 
 export default function ListingModal({ listing, onClose }: ListingModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
-
   const [userId, setUserId] = useState<string | null>(null);
   const [alreadyBookmarked, setAlreadyBookmarked] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [bookmarkStatus, setBookmarkStatus] = useState("Add to Bookmarks");
 
   // Close modal handlers
   useEffect(() => {
@@ -64,7 +60,6 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
         const snapshot = await getDoc(bookmarkRef);
         if (snapshot.exists()) {
           setAlreadyBookmarked(true);
-          setBookmarkStatus("Already Bookmarked");
         }
       } else {
         setUserId(null);
@@ -75,11 +70,6 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
 
     return () => unsubscribe();
   }, [listing.id]);
-
-  const handleViewListing = () => {
-    onClose();
-    router.push(`/listing/${listing.id}`);
-  };
 
   const handleBookmark = async () => {
     if (!userId) {
@@ -103,23 +93,46 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
         bookmarkedAt: new Date().toISOString(),
       });
       setAlreadyBookmarked(true);
-      setBookmarkStatus("Bookmarked!");
     } catch (error) {
       console.error("Error bookmarking listing:", error);
       alert("Failed to bookmark listing. Please try again.");
     }
   };
 
-  // Helper to get days ago
-  const getDaysAgo = () => {
+  // Helper to get "Listed x weeks/days ago"
+  const getListedAgo = () => {
     if (!listing.createdAt?.toDate) return "";
     const now = new Date();
     const created = listing.createdAt.toDate();
     const diffTime = Math.abs(now.getTime() - created.getTime());
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    if (diffDays === 0) return "today";
-    if (diffDays === 1) return "1 day ago";
-    return `${diffDays} days ago`;
+    const diffWeeks = Math.floor(diffDays / 7);
+    if (diffWeeks > 0) {
+      return `Listed ${diffWeeks} week${diffWeeks > 1 ? "s" : ""} ago${
+        diffDays % 7
+          ? `, ${diffDays % 7} day${diffDays % 7 > 1 ? "s" : ""} ago`
+          : ""
+      }`;
+    }
+    if (diffDays === 0) return "Listed today";
+    if (diffDays === 1) return "Listed 1 day ago";
+    return `Listed ${diffDays} days ago`;
+  };
+
+  // Share handler (simple copy link)
+  const handleShare = async () => {
+    const url = `${window.location.origin}/listing/${listing.id}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      alert("Listing link copied to clipboard!");
+    } catch {
+      alert("Failed to copy link.");
+    }
+  };
+
+  // Message handler (placeholder)
+  const handleMessage = () => {
+    alert("Messaging feature coming soon!");
   };
 
   return (
@@ -142,6 +155,9 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
             <p className={styles.price}>
               ${listing.price?.toLocaleString?.() ?? listing.price}
             </p>
+            <p className={styles.listedAgo}>
+              {getListedAgo()} in {listing.location ?? "N/A"}
+            </p>
             <p className={styles.category}>Category: {listing.category}</p>
             {listing.condition && (
               <p className={styles.condition}>
@@ -150,39 +166,33 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
                   listing.condition.slice(1).toLowerCase()}
               </p>
             )}
-            <p className={styles.description}>{listing.description}</p>
-            {/* Display all listing info */}
-            <div className={styles.meta}>
-              <p>
-                <strong>Location:</strong> {listing.location ?? "N/A"}
-              </p>
-              <p>
-                <strong>Posted by:</strong> {listing.username || "Unknown user"}
-              </p>
-              {listing.createdAt?.toDate && (
-                <p>
-                  <strong>Date:</strong>{" "}
-                  {listing.createdAt.toDate().toLocaleDateString(undefined, {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}{" "}
-                  ({getDaysAgo()})
-                </p>
-              )}
-            </div>
-            <div className={styles.buttonGroup}>
-              <button className={styles.viewButton} onClick={handleViewListing}>
-                View Full Listing
+            <div className={styles.buttonRow}>
+              <button className={styles.messageButton} onClick={handleMessage}>
+                <MessageCircle size={16} style={{ marginRight: "8px" }} />
+                Message
               </button>
               <button
-                className={styles.bookmarkButton}
+                className={styles.saveButton}
                 onClick={handleBookmark}
                 disabled={loading || alreadyBookmarked}
               >
                 <Bookmark size={16} style={{ marginRight: "8px" }} />
-                {userId ? bookmarkStatus : "Sign in to Bookmark"}
+                {userId
+                  ? alreadyBookmarked
+                    ? "Saved"
+                    : "Save"
+                  : "Sign in to Save"}
               </button>
+              <button className={styles.shareButton} onClick={handleShare}>
+                <Share2 size={16} style={{ marginRight: "8px" }} />
+                Share
+              </button>
+            </div>
+            <p className={styles.description}>{listing.description}</p>
+            <div className={styles.meta}>
+              <p>
+                <strong>Posted by:</strong> {listing.username || "Unknown user"}
+              </p>
             </div>
           </div>
         </div>
