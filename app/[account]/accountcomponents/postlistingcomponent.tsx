@@ -5,6 +5,7 @@ import { db, auth } from "@/lib/firebase";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import type { User } from "firebase/auth";
+import Image from "next/image";
 
 export default function PostListingComponent() {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,6 +19,13 @@ export default function PostListingComponent() {
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("general");
   const [customCategory, setCustomCategory] = useState("");
+
+  // New fields
+  const [condition, setCondition] = useState("new");
+  const [location, setLocation] = useState("waurn ponds");
+  const [customLocation, setCustomLocation] = useState("");
+
+  const [selectedImages, setSelectedImages] = useState<File[]>([]);
 
   const boxRef = useRef<HTMLDivElement>(null);
 
@@ -37,6 +45,10 @@ export default function PostListingComponent() {
     setPrice("");
     setCategory("general");
     setCustomCategory("");
+    setCondition("new");
+    setLocation("waurn ponds");
+    setCustomLocation("");
+    setSelectedImages([]);
   };
 
   useEffect(() => {
@@ -77,7 +89,16 @@ export default function PostListingComponent() {
   }, [isVisible, triggerClose]);
 
   const handleSubmit = async () => {
-    if (!title || !description || !price || !category || !currentUser) {
+    if (
+      !title ||
+      !description ||
+      !price ||
+      !category ||
+      !currentUser ||
+      !condition ||
+      !location ||
+      (location === "other" && !customLocation)
+    ) {
       return alert("Please fill out all fields.");
     }
 
@@ -87,6 +108,8 @@ export default function PostListingComponent() {
         description,
         price: parseFloat(price),
         category: category === "custom" ? customCategory : category,
+        condition,
+        location: location === "other" ? customLocation : location,
         createdAt: serverTimestamp(),
         userId: currentUser.uid,
         userEmail: currentUser.email ?? "unknown@email.com",
@@ -101,6 +124,13 @@ export default function PostListingComponent() {
       } else {
         alert("An unknown error occurred while posting the listing.");
       }
+    }
+  };
+
+  // Handler for image selection (does not upload)
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setSelectedImages(Array.from(e.target.files));
     }
   };
 
@@ -120,6 +150,38 @@ export default function PostListingComponent() {
         >
           <div className={styles.modalBox} ref={boxRef}>
             <h2>Create a Listing</h2>
+
+            {/* Image upload placeholder */}
+            <div className={styles.imageUploadPlaceholder}>
+              <label className={styles.imageUploadLabel}>
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  style={{ display: "none" }}
+                  onChange={handleImageChange}
+                  disabled
+                />
+                <span>
+                  {selectedImages.length > 0
+                    ? `${selectedImages.length} image(s) selected`
+                    : "Upload Images (placeholder, not stored)"}
+                </span>
+              </label>
+              <div className={styles.imagePreviewRow}>
+                {selectedImages.map((file, idx) => (
+                  <Image
+                    key={idx}
+                    src={URL.createObjectURL(file)}
+                    alt={`preview-${idx}`}
+                    width={100}
+                    height={100}
+                    className={styles.imagePreview}
+                    style={{ objectFit: "cover" }}
+                  />
+                ))}
+              </div>
+            </div>
 
             <input
               type="text"
@@ -149,9 +211,10 @@ export default function PostListingComponent() {
               <option value="">Select a category</option>
               <option value="books">Books & Notes</option>
               <option value="furniture">Furniture</option>
-              <option value="bikes">Bikes</option>
+              <option value="vehicle">Vehicles</option>
               <option value="tutoring">Tutoring</option>
               <option value="custom">Other (enter manually)</option>
+              ];
             </select>
 
             {category === "custom" && (
@@ -160,6 +223,39 @@ export default function PostListingComponent() {
                 placeholder="Enter custom category"
                 value={customCategory}
                 onChange={(e) => setCustomCategory(e.target.value)}
+                className={styles.input}
+              />
+            )}
+
+            <select
+              value={condition}
+              onChange={(e) => setCondition(e.target.value)}
+              className={styles.select}
+            >
+              <option value="new">Condition: New</option>
+              <option value="like new">Condition: Like New</option>
+              <option value="used">Condition: Used</option>
+              <option value="for parts">Condition: For Parts</option>
+            </select>
+
+            {/* Location dropdown */}
+            <select
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              className={styles.select}
+            >
+              <option value="waurn ponds">Waurn Ponds</option>
+              <option value="geelong">Geelong</option>
+              <option value="burwood">Burwood</option>
+              <option value="other">Other (enter manually)</option>
+            </select>
+
+            {location === "other" && (
+              <input
+                type="text"
+                placeholder="Enter location"
+                value={customLocation}
+                onChange={(e) => setCustomLocation(e.target.value)}
                 className={styles.input}
               />
             )}

@@ -1,0 +1,189 @@
+.sidebar {
+  width: 300px;
+  padding: 1rem;
+  border-right: 1px solid #ddd;
+  background-color: #f9f9f9;
+  color: black;
+  position: relative;
+}
+
+.sidebarTitle {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: black;
+}
+
+.filterNote {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.priceRange {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.categoryButtonGroup {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+  position: relative;
+  min-height: 300px;
+  overflow: hidden;
+}
+
+.slideInRight {
+  animation: slideInRight 0.3s;
+}
+
+.slideOutLeft {
+  animation: slideOutLeft 0.3s;
+}
+
+.slideInLeft {
+  animation: slideInLeft 0.3s;
+}
+
+.slideOutRight {
+  animation: slideOutRight 0.3s;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutLeft {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+}
+
+.categoryButton {
+  width: 100%;
+  padding: 0.7rem 0.5rem;
+  border: none;
+  background: #f2f2f2;
+  color: #222;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s, border 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-radius: 4px;
+}
+
+.categoryButton:hover,
+.activeCategory {
+  background: #e4eaff;
+}
+
+.categoryIcon {
+  display: flex;
+  align-items: center;
+  margin-right: 0.5rem;
+}
+
+.categoryLabel {
+  flex: 1;
+  text-align: left;
+}
+
+.chevronIcon {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.submenu {
+  position: absolute; 
+  left: 100%;              
+  top: 0;
+  height: 100%;
+  min-width: 200px;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  background: #f9f9f9;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.07);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+}
+
+.submenuItem {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: #222;
+  transition: background 0.15s;
+}
+
+.submenuItem:hover {
+  background: #e4eaff;
+}
+
+@media (max-width: 800px) {
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+    padding: 1rem;
+    position: relative;
+    z-index: 1;
+  }
+}

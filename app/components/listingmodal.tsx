@@ -1,8 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import styles from "./listingmodal.module.css";
-import { Bookmark } from "lucide-react";
+import { Bookmark, MessageCircle, Share2 } from "lucide-react";
 import { auth, db } from "@/lib/firebase";
 import { doc, getDoc, setDoc, Timestamp } from "firebase/firestore";
 
@@ -13,22 +12,23 @@ interface ListingModalProps {
     description: string;
     price: number;
     category: string;
-    userEmail?: string;
-    username?: string;
+    location: string;
+    userId: string;
+    userEmail: string;
+    username: string;
     createdAt?: Timestamp;
+    condition: string;
   };
   onClose: () => void;
 }
 
 export default function ListingModal({ listing, onClose }: ListingModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
-
   const [userId, setUserId] = useState<string | null>(null);
   const [alreadyBookmarked, setAlreadyBookmarked] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [bookmarkStatus, setBookmarkStatus] = useState("Add to Bookmarks");
 
+  // Close modal handlers
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
@@ -60,7 +60,6 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
         const snapshot = await getDoc(bookmarkRef);
         if (snapshot.exists()) {
           setAlreadyBookmarked(true);
-          setBookmarkStatus("Already Bookmarked");
         }
       } else {
         setUserId(null);
@@ -72,11 +71,6 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
     return () => unsubscribe();
   }, [listing.id]);
 
-  const handleViewListing = () => {
-    onClose();
-    router.push(`/listing/${listing.id}`);
-  };
-
   const handleBookmark = async () => {
     if (!userId) {
       alert("Please sign in to bookmark this listing.");
@@ -84,7 +78,7 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
     }
 
     if (alreadyBookmarked) {
-      alert("You’ve already bookmarked this listing.");
+      alert("You've already bookmarked this listing.");
       return;
     }
 
@@ -99,11 +93,46 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
         bookmarkedAt: new Date().toISOString(),
       });
       setAlreadyBookmarked(true);
-      setBookmarkStatus("Bookmarked!");
     } catch (error) {
       console.error("Error bookmarking listing:", error);
       alert("Failed to bookmark listing. Please try again.");
     }
+  };
+
+  // Helper to get "Listed x weeks/days ago"
+  const getListedAgo = () => {
+    if (!listing.createdAt?.toDate) return "";
+    const now = new Date();
+    const created = listing.createdAt.toDate();
+    const diffTime = Math.abs(now.getTime() - created.getTime());
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    const diffWeeks = Math.floor(diffDays / 7);
+    if (diffWeeks > 0) {
+      return `Listed ${diffWeeks} week${diffWeeks > 1 ? "s" : ""} ago${
+        diffDays % 7
+          ? `, ${diffDays % 7} day${diffDays % 7 > 1 ? "s" : ""} ago`
+          : ""
+      }`;
+    }
+    if (diffDays === 0) return "Listed today";
+    if (diffDays === 1) return "Listed 1 day ago";
+    return `Listed ${diffDays} days ago`;
+  };
+
+  // Share handler (simple copy link)
+  const handleShare = async () => {
+    const url = `${window.location.origin}/listing/${listing.id}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      alert("Listing link copied to clipboard!");
+    } catch {
+      alert("Failed to copy link.");
+    }
+  };
+
+  // Message handler (placeholder)
+  const handleMessage = () => {
+    alert("Messaging feature coming soon!");
   };
 
   return (
@@ -112,36 +141,61 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
         <button className={styles.closeButton} onClick={onClose}>
           &times;
         </button>
-        <h2 className={styles.title}>{listing.title}</h2>
-        <p className={styles.price}>${listing.price}</p>
-        <p className={styles.category}>Category: {listing.category}</p>
-        <p className={styles.description}>{listing.description}</p>
-        <div className={styles.meta}>
-          <p>Posted by: {listing.username}</p>
-          {listing.createdAt?.toDate && (
-            <p>
-              Date:{" "}
-              {listing.createdAt.toDate().toLocaleDateString(undefined, {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
+        <div className={styles.contentRow}>
+          {/* Left column: images (placeholder for now) */}
+          <div className={styles.leftCol}>
+            <div className={styles.imagePlaceholder}>
+              <span>No images available</span>
+            </div>
+          </div>
+
+          {/* Right column: info */}
+          <div className={styles.rightCol}>
+            <h2 className={styles.title}>{listing.title}</h2>
+            <p className={styles.price}>
+              ${listing.price?.toLocaleString?.() ?? listing.price}
             </p>
-          )}
+            <p className={styles.listedAgo}>
+              {getListedAgo()} in {listing.location ?? "N/A"}
+            </p>
+            <p className={styles.category}>Category: {listing.category}</p>
+            {listing.condition && (
+              <p className={styles.condition}>
+                Condition:{" "}
+                {listing.condition.charAt(0).toUpperCase() +
+                  listing.condition.slice(1).toLowerCase()}
+              </p>
+            )}
+            <div className={styles.buttonRow}>
+              <button className={styles.messageButton} onClick={handleMessage}>
+                <MessageCircle size={16} style={{ marginRight: "8px" }} />
+                Message
+              </button>
+              <button
+                className={styles.saveButton}
+                onClick={handleBookmark}
+                disabled={loading || alreadyBookmarked}
+              >
+                <Bookmark size={16} style={{ marginRight: "8px" }} />
+                {userId
+                  ? alreadyBookmarked
+                    ? "Saved"
+                    : "Save"
+                  : "Sign in to Save"}
+              </button>
+              <button className={styles.shareButton} onClick={handleShare}>
+                <Share2 size={16} style={{ marginRight: "8px" }} />
+                Share
+              </button>
+            </div>
+            <p className={styles.description}>{listing.description}</p>
+            <div className={styles.meta}>
+              <p>
+                <strong>Posted by:</strong> {listing.username || "Unknown user"}
+              </p>
+            </div>
+          </div>
         </div>
-
-        <button className={styles.viewButton} onClick={handleViewListing}>
-          View Full Listing
-        </button>
-
-        <button
-          className={styles.bookmarkButton}
-          onClick={handleBookmark}
-          disabled={loading || alreadyBookmarked}
-        >
-          <Bookmark size={16} style={{ marginRight: "8px" }} />
-          {userId ? bookmarkStatus : "Sign in to Bookmark"}
-        </button>
       </div>
     </div>
   );

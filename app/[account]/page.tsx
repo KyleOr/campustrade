@@ -2,30 +2,14 @@
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  Timestamp,
-} from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 import TopNavbar from "../topnavbar/topnavbar";
 import PostListingcomponent from "./accountcomponents/postlistingcomponent";
 import ListingModal from "../components/listingmodal";
 import styles from "./accountpage.module.css";
 import type { User } from "firebase/auth";
-
-type Listing = {
-  id: string;
-  title: string;
-  price: number;
-  category: string;
-  description: string;
-  username: string;
-  createdAt?: Timestamp;
-  // Add other fields as needed
-};
+import type { listing as Listing } from "@/lib/listing";
 
 export default function AccountPage() {
   const router = useRouter();
@@ -72,6 +56,10 @@ export default function AccountPage() {
             description: d.description ?? "",
             username: d.username ?? "",
             createdAt: d.createdAt,
+            location: d.location ?? "",
+            condition: d.condition ?? "",
+            userId: d.userId ?? "",
+            userEmail: d.userEmail ?? "",
           };
         });
         setListings(data);

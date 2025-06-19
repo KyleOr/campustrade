@@ -1,11 +1,17 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import styles from "./featuredcomponent.module.css";
+import styles from "./trendingcategories.module.css";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
-export default function FeaturedComponent() {
+interface TrendingCategoriesProps {
+  isActive?: boolean;
+}
+
+export default function TrendingCategories({
+  isActive = true,
+}: TrendingCategoriesProps) {
   const router = useRouter();
 
   const categories = [
@@ -25,7 +31,12 @@ export default function FeaturedComponent() {
   };
 
   return (
-    <section className={styles.featured}>
+    <motion.section
+      className={styles.featured}
+      initial={!isActive ? { opacity: 0 } : undefined}
+      animate={isActive ? { opacity: 1 } : { opacity: 0.5 }}
+      transition={{ duration: 0.3 }}
+    >
       <div className={styles.banner}>
         <Image
           src="/featuredsectionimage.jpg"
@@ -40,12 +51,17 @@ export default function FeaturedComponent() {
         </div>
 
         <div className={styles.buyNowWrapper}>
-          <button className={styles.buyNowButton} onClick={handleBuyNow}>
+          <motion.button
+            className={styles.buyNowButton}
+            onClick={handleBuyNow}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
             Buy Now
             <span className={styles.arrowIcon}>
               <ArrowRight size={16} />
             </span>
-          </button>
+          </motion.button>
         </div>
 
         <div className={styles.buttonsContainer}>
@@ -84,6 +100,6 @@ export default function FeaturedComponent() {
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

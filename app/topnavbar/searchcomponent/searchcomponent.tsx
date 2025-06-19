@@ -74,7 +74,7 @@ export default function SearchComponent({ onClose }: Props) {
             category: d.category ?? "",
             description: d.description ?? "",
             username: d.username ?? "",
-            createdAt: d.createdAt, // or add a cast if needed
+            createdAt: d.createdAt,
           };
         });
         setListings(data);
@@ -110,7 +110,7 @@ export default function SearchComponent({ onClose }: Props) {
         router.push(
           `/marketplace?search=${encodeURIComponent(searchTerm.trim())}`
         );
-        onClose(); // optional: close the search overlay
+        onClose(); // close the search overlay
       }
     }
   };
