@@ -61,7 +61,7 @@
 .postButton:hover {
   background-color: white;
   color: black;
-  border: 1px solid black; /* optional for visual clarity */
+  border: 1px solid black;
 }
 
 

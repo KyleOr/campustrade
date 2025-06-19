@@ -47,7 +47,7 @@ export default function FeaturedCarousel() {
         </motion.div>
       </AnimatePresence>
 
-      {/* Navigation arrows - modern design */}
+      {/* Navigation arrows*/}
       <div className={styles.navigationContainer}>
         <button
           onClick={prevSlide}

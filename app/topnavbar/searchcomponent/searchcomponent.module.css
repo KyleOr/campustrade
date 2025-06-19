@@ -87,7 +87,7 @@
   }
   
   .resultsWrapper.open {
-    height: 400px; /* or whatever height fits your content */
+    height: 400px;
     opacity: 1;
     margin-top: 1.5rem;
   }
@@ -106,7 +106,7 @@
     font-weight: bold;
     gap: 0.75rem;
     color: black;
-    height: 150px; /* add a height for scrollbar*/
+    height: 150px;
     overflow-y: auto;
     padding-right: 0.5rem;
   }
@@ -121,7 +121,7 @@
   }
 
   .resultsLeft {
-    -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+    -webkit-overflow-scrolling: touch;
   }
   
   
@@ -132,7 +132,7 @@
   padding: 1rem;
   min-height: 150px;
   display: flex;
-  align-items: flex-start; /* changed from center */
+  align-items: flex-start;
   justify-content: center;
   color: black;
   font-style: italic;
@@ -218,7 +218,7 @@
 @media (max-width: 768px) {
     .searchBox {
       width: 90%; /* Reduce width for smaller screens */
-      padding: 1.5rem; /* Adjust padding */
+      padding: 1.5rem;
     }
   
     .searchInputWrapper {
@@ -248,8 +248,7 @@
         max-height: 300px;
         opacity: 1;
         margin-top: 1.5rem;
-        /* Remove overflow: visible */
-        overflow: auto; /* Change to auto */
+        overflow: auto;
       }
       
       .resultsLeft {
@@ -296,7 +295,7 @@
       margin-top: 1.5rem;
       display: flex;
       flex-direction: column;
-      overflow: hidden; /* Container shouldn't scroll, its child should */
+      overflow: hidden;
     }
     
     .resultsLeft {
