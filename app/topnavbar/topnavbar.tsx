@@ -14,8 +14,8 @@ export default function TopNavbar() {
   const [showBookmarks, setShowBookmarks] = useState(false);
   const [username, setUsername] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -29,6 +29,14 @@ export default function TopNavbar() {
 
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+
+  if (!mounted) return null; // or a loading spinner
 
   const navItems = [
     { name: "Home", href: "/" },
