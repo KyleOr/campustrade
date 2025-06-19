@@ -135,6 +135,10 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
     alert("Messaging feature coming soon!");
   };
 
+  function truncate(str: string, max: number) {
+    return str.length > max ? str.slice(0, max - 1) + "…" : str;
+  }
+
   return (
     <div className={styles.overlay}>
       <div className={styles.modal} ref={modalRef}>
@@ -151,7 +155,7 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
 
           {/* Right column: info */}
           <div className={styles.rightCol}>
-            <h2 className={styles.title}>{listing.title}</h2>
+            <h2 className={styles.title}>{truncate(listing.title, 60)}</h2>
             <p className={styles.price}>
               ${listing.price?.toLocaleString?.() ?? listing.price}
             </p>
@@ -188,7 +192,9 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
                 Share
               </button>
             </div>
-            <p className={styles.description}>{listing.description}</p>
+            <p className={styles.description}>
+              {truncate(listing.description, 300)}
+            </p>
             <div className={styles.meta}>
               <p>
                 <strong>Posted by:</strong> {listing.username || "Unknown user"}

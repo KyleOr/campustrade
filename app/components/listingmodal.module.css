@@ -40,6 +40,11 @@
 .title {
   font-size: 1.8rem;
   margin-bottom: 0.2rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  display: block;
 }
 
 .price {
@@ -48,6 +53,11 @@
   font-weight: bold;
   margin-bottom: 0.5rem;
   margin-top: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  display: block;
 }
 
 .category {
@@ -57,9 +67,16 @@
 }
 
 .description {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;      /* Show up to 4 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
   margin-bottom: 1rem;
   font-size: 1rem;
   line-height: 1.5;
+  white-space: normal;         /* Allow wrapping */
+  max-width: 100%;
 }
 
 .meta {
@@ -125,6 +142,9 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  min-width: 0;           /* Allow flex children to shrink */
+  max-width: 100%;
+  overflow: hidden;       /* Prevent content from leaking out */
 }
 
 .imagePlaceholder {

@@ -10,7 +10,7 @@ import {
 import { db } from "@/lib/firebase";
 import styles from "./marketplacepage.module.css";
 import ListingModal from "../components/listingmodal";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import MarketCard from "./marketcard";
 import MarketplaceFilter from "./marketplacefilter";
 import type { listing } from "@/lib/listing";
@@ -22,6 +22,8 @@ export default function MarketplaceClient() {
   const [selectedListing, setSelectedListing] = useState<listing | null>(null);
 
   const searchParams = useSearchParams();
+  const router = useRouter();
+
   const initialSearch = searchParams.get("search") || "";
   const [searchQuery, setSearchQuery] = useState(initialSearch);
   const [categoryFilter, setCategoryFilter] = useState("");
@@ -107,6 +109,23 @@ export default function MarketplaceClient() {
     listings,
   ]);
 
+  // Open modal if ?listing= is present
+  useEffect(() => {
+    const listingId = searchParams.get("listing");
+    if (listingId && listings.length > 0) {
+      const found = listings.find((l) => l.id === listingId);
+      if (found) setSelectedListing(found);
+    }
+  }, [searchParams, listings]);
+
+  // When closing modal, remove ?listing= from URL
+  const handleCloseModal = () => {
+    setSelectedListing(null);
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("listing");
+    router.replace(`/marketplace?${params.toString()}`, { scroll: false });
+  };
+
   return (
     <>
       {/* SIDEBAR FILTERS */}
@@ -144,10 +163,7 @@ export default function MarketplaceClient() {
       </div>
 
       {selectedListing && (
-        <ListingModal
-          listing={selectedListing}
-          onClose={() => setSelectedListing(null)}
-        />
+        <ListingModal listing={selectedListing} onClose={handleCloseModal} />
       )}
     </>
   );

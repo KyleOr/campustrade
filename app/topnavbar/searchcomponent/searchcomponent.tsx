@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState, useCallback } from "react";
-import { Search, SlidersHorizontal } from "lucide-react";
+import { Search } from "lucide-react";
 import styles from "./searchcomponent.module.css";
 import { db } from "@/lib/firebase";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
@@ -27,6 +27,7 @@ export default function SearchComponent({ onClose }: Props) {
   const [isClosing, setIsClosing] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isOpen, setIsOpen] = useState(false); // track if the results are open or not
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const triggerClose = useCallback(() => {
     setIsClosing(true);
@@ -115,6 +116,10 @@ export default function SearchComponent({ onClose }: Props) {
     }
   };
 
+  function truncate(str: string, max: number) {
+    return str.length > max ? str.slice(0, max - 1) + "…" : str;
+  }
+
   return (
     <div
       className={`${styles.overlay} ${isClosing ? styles.fadeOut : ""} ${
@@ -132,7 +137,6 @@ export default function SearchComponent({ onClose }: Props) {
             onChange={(e) => setSearchTerm(e.target.value)}
             onKeyDown={handleKeyDown}
           />
-          <SlidersHorizontal size={20} className={styles.iconButton} />
         </div>
 
         <div
@@ -146,14 +150,22 @@ export default function SearchComponent({ onClose }: Props) {
                     No matches found for &quot;{searchTerm}&quot;
                   </div>
                 ) : (
-                  filtered.map((item) => (
-                    <Link
-                      href={`/listing/${item.id}`}
+                  filtered.map((item, idx) => (
+                    <div
                       key={item.id}
-                      className={styles.suggestionItem}
+                      className={`${styles.suggestionItem} ${
+                        selectedIndex === idx ? styles.selected : ""
+                      }`}
+                      onClick={() => setSelectedIndex(idx)}
+                      tabIndex={0}
+                      role="button"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ")
+                          setSelectedIndex(idx);
+                      }}
                     >
-                      {item.title} — ${item.price}
-                    </Link>
+                      {truncate(item.title, 30)} — ${item.price}
+                    </div>
                   ))
                 )}
               </div>
@@ -161,15 +173,23 @@ export default function SearchComponent({ onClose }: Props) {
               <div className={styles.resultsRight}>
                 {filtered.length > 0 ? (
                   <div className={styles.resultCard}>
-                    <h3 className={styles.cardTitle}>{filtered[0].title}</h3>
-                    <p className={styles.cardPrice}>${filtered[0].price}</p>
-                    <p className={styles.cardDesc}>{filtered[0].description}</p>
+                    <h3 className={styles.cardTitle}>
+                      {truncate(filtered[selectedIndex].title, 40)}
+                    </h3>
+                    <p className={styles.cardPrice}>
+                      ${filtered[selectedIndex].price}
+                    </p>
+                    <p className={styles.cardDesc}>
+                      {truncate(filtered[selectedIndex].description, 120)}
+                    </p>
                     <p className={styles.cardMeta}>
-                      Category: {filtered[0].category || "Uncategorized"}
+                      Category:{" "}
+                      {filtered[selectedIndex].category || "Uncategorized"}
                     </p>
                     <Link
-                      href={`/listing/${filtered[0].id}`}
+                      href={`/marketplace?listing=${filtered[selectedIndex].id}`}
                       className={styles.viewButton}
+                      scroll={false}
                     >
                       View Listing
                     </Link>
