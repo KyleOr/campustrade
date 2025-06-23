@@ -6,6 +6,7 @@ import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import type { User } from "firebase/auth";
 import Image from "next/image";
+import { useToast } from "../../components/toastnotification";
 
 export default function PostListingComponent() {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,6 +29,7 @@ export default function PostListingComponent() {
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
 
   const boxRef = useRef<HTMLDivElement>(null);
+  const showToast = useToast();
 
   const triggerClose = useCallback(() => {
     setIsClosing(true);
@@ -99,7 +101,8 @@ export default function PostListingComponent() {
       !location ||
       (location === "other" && !customLocation)
     ) {
-      return alert("Please fill out all fields.");
+      showToast("Please fill out all fields.");
+      return;
     }
 
     try {
@@ -116,13 +119,13 @@ export default function PostListingComponent() {
         username: (currentUser.email ?? "unknown").split("@")[0],
       });
 
-      alert("Listing posted!");
+      showToast("Listing posted!");
       triggerClose();
     } catch (err: unknown) {
       if (err instanceof Error) {
-        alert("Error posting listing: " + err.message);
+        showToast("Error posting listing: " + err.message);
       } else {
-        alert("An unknown error occurred while posting the listing.");
+        showToast("An unknown error occurred while posting the listing.");
       }
     }
   };

@@ -15,6 +15,7 @@ import Image from "next/image";
 import authImage from "/public/auth.jpg";
 import { motion, AnimatePresence } from "framer-motion";
 import TopNavbar from "../topnavbar/topnavbar";
+import { useToast } from "../components/toastnotification";
 
 export default function AuthPage() {
   const [email, setEmail] = useState("");
@@ -22,6 +23,7 @@ export default function AuthPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
   const router = useRouter();
+  const showToast = useToast();
 
   const handleSubmit = async () => {
     try {
@@ -31,7 +33,7 @@ export default function AuthPage() {
         router.push(`/${username}`);
       } else {
         if (password !== confirmPassword) {
-          alert("Passwords do not match");
+          showToast("Passwords do not match");
           return;
         }
 
@@ -42,15 +44,15 @@ export default function AuthPage() {
         );
         const user = userCredential.user;
         await createUserInFirestore(user.uid, email);
-        alert("Registered!");
+        showToast("Registered!");
         const username = email.split("@")[0];
         router.push(`/${username}`);
       }
     } catch (err: unknown) {
       if (err instanceof Error) {
-        alert(err.message);
+        showToast(err.message);
       } else {
-        alert("An unknown error occurred.");
+        showToast("An unknown error occurred.");
       }
     }
   };
@@ -73,9 +75,9 @@ export default function AuthPage() {
       router.push(`/${username}`);
     } catch (err: unknown) {
       if (err instanceof Error) {
-        alert(err.message);
+        showToast(err.message);
       } else {
-        alert("An unknown error occurred.");
+        showToast("An unknown error occurred.");
       }
     }
   };

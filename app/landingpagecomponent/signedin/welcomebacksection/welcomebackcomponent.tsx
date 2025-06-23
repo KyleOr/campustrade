@@ -1,6 +1,6 @@
 "use client";
 import styles from "./welcomebackcomponent.module.css";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, anticipate } from "framer-motion";
 import { useEffect, useState } from "react";
 import type { User } from "firebase/auth";
 
@@ -44,12 +44,12 @@ function InitialView() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 1.5, ease: "anticipate" },
+      transition: { duration: 1.5, ease: anticipate },
     },
     exit: {
       opacity: 0,
       x: -300,
-      transition: { duration: 0.8, ease: "anticipate" },
+      transition: { duration: 0.8, ease: anticipate },
     },
   };
 
@@ -93,7 +93,7 @@ function WelcomeView({ username }: { username: string }) {
     visible: {
       opacity: 1,
       x: 0,
-      transition: { duration: 0.8, ease: "anticipate" },
+      transition: { duration: 0.8, ease: anticipate },
     },
   };
 

@@ -53,7 +53,7 @@ export default function TopNavbar() {
     open: {
       clipPath: `circle(1500px at 40px 40px)`,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         stiffness: 20,
       },
     },
@@ -61,7 +61,7 @@ export default function TopNavbar() {
       clipPath: "circle(30px at 40px 40px)",
       transition: {
         delay: 0.2,
-        type: "spring",
+        type: "spring" as const,
         stiffness: 400,
         damping: 40,
       },
