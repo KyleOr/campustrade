@@ -2,42 +2,54 @@
 import styles from "./featuredevents.module.css";
 import Image from "next/image";
 import { Calendar, MapPin, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
-export default function FeaturedEvents() {
+export interface FeaturedEventData {
+  title: string;
+  image: string;
+  description: string;
+  date: string;
+  location: string;
+  cta: string;
+  ctaLink: string;
+}
+
+export default function FeaturedEvents(props: FeaturedEventData) {
   return (
     <section className={styles.featured}>
       <div className={styles.banner}>
         <Image
-          src="/featuredevent.jpg"
-          alt="Coffee training event background"
+          src={props.image}
+          alt={props.title}
           fill
           className={styles.bannerImage}
           priority
         />
         <div className={styles.content}>
-          <h2 className={styles.title}>Coffee Training Workshop</h2>
+          <h2 className={styles.title}>{props.title}</h2>
           <div className={styles.details}>
-            Master the art of coffee making!
-            <br />
-            Join our hands-on barista training and learn latte art, espresso
-            basics, and more.
-            <br />
+            {props.description.split("\n").map((line, i) => (
+              <span key={i}>
+                {line}
+                <br />
+              </span>
+            ))}
             <span className={styles.eventDetail}>
               <Calendar size={18} style={{ marginRight: "8px" }} />
-              July 20, 2–5pm
+              {props.date}
             </span>
             <span className={styles.eventDetail}>
               <MapPin size={18} style={{ marginRight: "8px" }} />
-              Campus Café, Building B
+              {props.location}
             </span>
           </div>
           <div className={styles.buyNowWrapper}>
-            <button className={styles.buyNowButton}>
-              Join Now
+            <Link href={props.ctaLink} className={styles.buyNowButton}>
+              {props.cta}
               <span className={styles.arrowIcon}>
                 <ArrowRight size={16} />
               </span>
-            </button>
+            </Link>
           </div>
         </div>
       </div>

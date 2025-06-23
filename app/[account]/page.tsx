@@ -7,6 +7,7 @@ import { auth, db } from "@/lib/firebase";
 import TopNavbar from "../topnavbar/topnavbar";
 import PostListingcomponent from "./accountcomponents/postlistingcomponent";
 import ListingModal from "../components/listingmodal";
+import MarketCard from "../marketplace/marketcard";
 import styles from "./accountpage.module.css";
 import type { User } from "firebase/auth";
 import type { listing as Listing } from "@/lib/listing";
@@ -152,14 +153,13 @@ export default function AccountPage() {
           <h2 className={styles.sectionTitle}>Your Listings</h2>
           <div className={styles.listingGrid}>
             {listings.map((listing) => (
-              <div
+              <MarketCard
                 key={listing.id}
-                className={styles.card}
+                title={listing.title}
+                price={listing.price}
+                username={listing.username}
                 onClick={() => setSelectedListing(listing)}
-              >
-                <h4>{listing.title}</h4>
-                <p>${listing.price}</p>
-              </div>
+              />
             ))}
           </div>
         </div>

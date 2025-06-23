@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Coffee Training Workshop",
+    "image": "/featuredevent.jpg",
+    "description": "Master the art of coffee making!\nJoin our hands-on barista training and learn latte art, espresso basics, and more.",
+    "date": "July 20, 2–5pm",
+    "location": "Campus Café, Building B",
+    "cta": "Join Now",
+    "ctaLink": "/events/coffee-training"
+  },
+  {
+    "title": "Startup Pitch Night",
+    "image": "/pitchnight.jpg",
+    "description": "Pitch your startup idea to real investors and get feedback from industry experts.",
+    "date": "August 5, 6–9pm",
+    "location": "Innovation Hub, Room 101",
+    "cta": "Register",
+    "ctaLink": "/events/pitch-night"
+  }
+]

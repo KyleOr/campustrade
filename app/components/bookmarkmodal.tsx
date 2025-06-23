@@ -130,7 +130,7 @@ export default function BookmarkModal({ onClose }: BookmarkModalProps) {
                 </div>
 
                 <Link
-                  href={`/listing/${bookmark.id}`}
+                  href={`/marketplace?listing=${bookmark.id}`}
                   className={styles.seeListingLink}
                   onClick={onClose}
                 >

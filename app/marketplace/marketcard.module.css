@@ -36,6 +36,9 @@
   letter-spacing: -1px;
   margin-bottom: 0.2rem;   
   padding: 1px 5px;        
+  white-space: nowrap;         
+  overflow: hidden;              
+  text-overflow: ellipsis;       
 }
 
 .cardPrice {
@@ -43,10 +46,16 @@
   font-weight: normal;
   margin-bottom: 0.1rem;   
   padding: 1px 5px;        
+  white-space: nowrap;          
+  overflow: hidden;              
+  text-overflow: ellipsis;      
 }
 
 .cardMeta {
   font-size: 0.85rem;
   color: #777;
   padding: 1px 5px;
+  white-space: nowrap;         
+  overflow: hidden;              
+  text-overflow: ellipsis;   
 }

@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import TrendingCategories from "./trendingcategories";
-import FeaturedEvents from "./featuredevents";
+import FeaturedEvents, { FeaturedEventData } from "./featuredevents";
+import featuredEventsData from "./featuredevents.json";
 import styles from "./featuredcarousel.module.css";
 
 export default function FeaturedCarousel() {
@@ -11,7 +12,9 @@ export default function FeaturedCarousel() {
 
   const carouselItems = [
     <TrendingCategories key="trending" />,
-    <FeaturedEvents key="events" />,
+    ...featuredEventsData.map((event: FeaturedEventData, idx: number) => (
+      <FeaturedEvents key={event.title + idx} {...event} />
+    )),
   ];
 
   const nextSlide = () => {
