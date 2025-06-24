@@ -4,6 +4,7 @@ import styles from "./listingmodal.module.css";
 import { Bookmark, MessageCircle, Share2 } from "lucide-react";
 import { auth, db } from "@/lib/firebase";
 import { doc, getDoc, setDoc, Timestamp } from "firebase/firestore";
+import { useToast } from "./toastnotification";
 
 interface ListingModalProps {
   listing: {
@@ -27,6 +28,7 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
   const [userId, setUserId] = useState<string | null>(null);
   const [alreadyBookmarked, setAlreadyBookmarked] = useState(false);
   const [loading, setLoading] = useState(true);
+  const showToast = useToast();
 
   // Close modal handlers
   useEffect(() => {
@@ -73,12 +75,12 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
 
   const handleBookmark = async () => {
     if (!userId) {
-      alert("Please sign in to bookmark this listing.");
+      showToast("Please sign in to bookmark this listing.");
       return;
     }
 
     if (alreadyBookmarked) {
-      alert("You've already bookmarked this listing.");
+      showToast("You've already bookmarked this listing.");
       return;
     }
 
@@ -93,9 +95,10 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
         bookmarkedAt: new Date().toISOString(),
       });
       setAlreadyBookmarked(true);
+      showToast("Listing bookmarked!");
     } catch (error) {
       console.error("Error bookmarking listing:", error);
-      alert("Failed to bookmark listing. Please try again.");
+      showToast("Failed to bookmark listing. Please try again.");
     }
   };
 
@@ -124,15 +127,15 @@ export default function ListingModal({ listing, onClose }: ListingModalProps) {
     const url = `${window.location.origin}/listing/${listing.id}`;
     try {
       await navigator.clipboard.writeText(url);
-      alert("Listing link copied to clipboard!");
+      showToast("Listing link copied to clipboard!");
     } catch {
-      alert("Failed to copy link.");
+      showToast("Failed to copy link.");
     }
   };
 
   // Message handler (placeholder)
   const handleMessage = () => {
-    alert("Messaging feature coming soon!");
+    showToast("Messaging feature coming soon!");
   };
 
   function truncate(str: string, max: number) {
